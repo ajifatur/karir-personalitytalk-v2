@@ -1,6 +1,6 @@
 @extends('template/admin/main')
 
-@section('title', __('company.title.create'))
+@section('title', __('company.title.edit'))
 
 @section('content')
 
@@ -9,19 +9,20 @@
 		<ol class="breadcrumb" id="breadcrumb">
 			<li class="breadcrumb-item"><i class="fas fa-tachometer-alt"></i></li>
 			<li class="breadcrumb-item"><a href="{{ route('admin.company.index') }}">{{ __('company.name') }}</a></li>
-			<li class="breadcrumb-item active" aria-current="page">{{ __('company.title.create') }}</li>
+			<li class="breadcrumb-item active" aria-current="page">{{ __('company.title.edit') }}</li>
 		</ol>
 	</div>
 
 	<!-- Content -->
 	<div class="card shadow mb-4">
 		<div class="card-body">
-			<form method="post" action="{{ route('admin.company.store') }}" enctype="multipart/form-data">
+			<form method="post" action="{{ route('admin.company.update') }}" enctype="multipart/form-data">
 				{{ csrf_field() }}
+                <input type="hidden" name="id" value="{{ $company->id }}">
 				<div class="form-group row">
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('company.db_field.name') }}: <span class="text-danger">*</span></label>
 					<div class="col-lg-10 col-md-9">
-						<input name="name" type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" value="{{ old('name') }}">
+						<input name="name" type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" value="{{ $company->name }}">
 						@if($errors->has('name'))
 						<small class="text-danger">{{ ucfirst($errors->first('name')) }}</small>
 						@endif
@@ -30,7 +31,7 @@
 				<div class="form-group row">
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('company.db_field.code') }}: <span class="text-danger">*</span></label>
 					<div class="col-lg-10 col-md-9">
-						<input name="code" type="text" class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}" value="{{ old('code') }}">
+						<input name="code" type="text" class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}" value="{{ $company->code }}">
 						<div class="small text-muted mt-1">{{ __('company.form.code') }}</div>
 						@if($errors->has('code'))
 						<small class="text-danger">{{ ucfirst($errors->first('code')) }}</small>
@@ -40,7 +41,7 @@
 				<div class="form-group row">
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('company.db_field.address') }}:</label>
 					<div class="col-lg-10 col-md-9">
-						<textarea name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" rows="3">{{ old('address') }}</textarea>
+						<textarea name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" rows="3">{{ $company->address }}</textarea>
 						@if($errors->has('address'))
 						<small class="text-danger">{{ ucfirst($errors->first('address')) }}</small>
 						@endif
@@ -49,7 +50,7 @@
 				<div class="form-group row">
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('company.db_field.phone_number') }}:</label>
 					<div class="col-lg-10 col-md-9">
-						<input name="phone_number" type="text" class="form-control {{ $errors->has('phone_number') ? 'is-invalid' : '' }}" value="{{ old('phone_number') }}">
+						<input name="phone_number" type="text" class="form-control {{ $errors->has('phone_number') ? 'is-invalid' : '' }}" value="{{ $company->phone_number }}">
 						@if($errors->has('phone_number'))
 						<small class="text-danger">{{ ucfirst($errors->first('phone_number')) }}</small>
 						@endif
@@ -59,7 +60,7 @@
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('company.db_field.founded_on') }}:</label>
 					<div class="col-lg-10 col-md-9">
 						<div class="input-group">
-							<input name="founded_on" type="text" class="form-control {{ $errors->has('founded_on') ? 'is-invalid' : '' }}" value="{{ old('founded_on') }}">
+							<input name="founded_on" type="text" class="form-control {{ $errors->has('founded_on') ? 'is-invalid' : '' }}" value="{{ generate_date_format($company->founded_on, 'd/m/y') }}">
 							<div class="input-group-append">
 								<span class="input-group-text {{ $errors->has('founded_on') ? 'border-outline-danger' : 'border-outline-primary' }}"><i class="fa fa-calendar"></i></span>
 							</div>
@@ -76,7 +77,7 @@
 							@foreach($tests as $key=>$test)
 							<div class="col-md-6 col-12">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" name="tests[]" value="{{ $test->id }}" id="defaultCheck-{{ $key }}">
+									<input class="form-check-input" type="checkbox" name="tests[]" value="{{ $test->id }}" id="defaultCheck-{{ $key }}" {{ in_array($test->id, $company->tests->pluck('id')->toArray()) ? 'checked' : '' }}>
 									<label class="form-check-label" for="defaultCheck-{{ $key }}">
 									{{ $test->name }}
 									</label>

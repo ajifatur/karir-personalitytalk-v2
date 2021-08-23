@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
 use App\Models\Test;
-use App\Models\CompanyTest;
 
 class CompanyController extends Controller
 {
@@ -53,8 +52,8 @@ class CompanyController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required',
-        ], validationMessages());
+            'code' => 'required|unique:companies|min:3',
+        ]);
         
         // Check errors
         if($validator->fails()){
@@ -68,16 +67,13 @@ class CompanyController extends Controller
             $company->code = $request->code;
             $company->address = $request->address;
             $company->phone_number = $request->phone_number;
-            $company->founded_on = $request->founded_on != '' ? $request->founded_on : null;
+            $company->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
             $company->save();
-            
-            // Save company tests
-            if(count($request->get('tests')) > 0){
+
+            // Attach company tests
+            if($request->get('tests') != null){
                 foreach($request->get('tests') as $test){
-                    $company_test = new CompanyTest;
-                    $company_test->company_id = $company->id;
-                    $company_test->test_id = $test;
-                    $company_test->save();
+                    $company->tests()->attach($test);
                 }
             }
 
@@ -105,29 +101,74 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        // Get the company
+        $company = Company::findOrFail($id);
+
+        // Get tests
+        $tests = Test::all();
+
+        // View
+        return view('admin/company/edit', [
+            'company' => $company,
+            'tests' => $tests,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // Validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'code' => 'required|unique:companies|min:6',
+        ]);
+        
+        // Check errors
+        if($validator->fails()){
+            // Back to form page with validation error messages
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+        else{
+            // Update the company
+            $company = Company::find($request->id);
+            $company->name = $request->name;
+            $company->code = $request->code;
+            $company->address = $request->address;
+            $company->phone_number = $request->phone_number;
+            $company->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
+            $company->save();
+
+            // Sync company tests
+            $company->tests()->sync($request->get('tests'));
+
+            // Redirect
+            return redirect()->route('admin.company.index')->with(['message' => 'Berhasil mengupdate data.']);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        //
+        // Get the company
+        $company = Company::find($request->id);
+
+        // Detach company tests
+        $company->tests()->detach();
+
+        // Delete the company
+        $company->delete();
+
+        // Redirect
+        return redirect()->route('admin.company.index')->with(['message' => 'Berhasil menghapus data.']);
     }
 }

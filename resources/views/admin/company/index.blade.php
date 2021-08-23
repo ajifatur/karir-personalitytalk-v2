@@ -74,7 +74,7 @@
 						@endforeach
 					</tbody>
 				</table>
-				<form id="form-delete" class="d-none" method="post" action="{{ route('admin.company.destroy') }}">
+				<form id="form-delete" class="d-none" method="post" action="{{ route('admin.company.delete') }}">
 					{{ csrf_field() }}
 					<input type="hidden" name="id">
 				</form>

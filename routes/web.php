@@ -72,7 +72,7 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/company/detail/{id}', 'CompanyController@detail')->name('admin.company.detail');
 	Route::get('/admin/company/edit/{id}', 'CompanyController@edit')->name('admin.company.edit');
 	Route::post('/admin/company/update', 'CompanyController@update')->name('admin.company.update');
-	Route::post('/admin/company/destroy', 'CompanyController@destroy')->name('admin.company.destroy');
+	Route::post('/admin/company/delete', 'CompanyController@delete')->name('admin.company.delete');
 	
 	// Profil
 	Route::get('/admin/profil', 'HRDController@profile');

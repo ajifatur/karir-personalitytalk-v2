@@ -39,7 +39,7 @@ class ApplicantRegisterController extends Controller
     | Step 4: Form Data Darurat
     | Step 5: Form Data Keahlian
     |
-    | Step 1: Nama Lengkap, Email, Tempat Lahir, Tanggal Lahir, Jenis Kelamin, Agama, Akun Sosial Media, Nomor HP, Nomor Telepon, Nomor KTP, Alamat, Alamat, Status Hubungan, Pendidikan Terakhir, Riwayat Pekerjaan
+    | Step 1: Nama Lengkap, Email, Tempat Lahir, Tanggal Lahir, Jenis Kelamin, Agama, Akun Sosial Media, Nomor HP, Nomor Telepon, Nomor KTP, Alamat, Status Hubungan, Pendidikan Terakhir, Riwayat Pekerjaan
     | Step 2: Pas Foto
     | Step 3: Foto Ijazah
     | Step 4: Nama Orang Tua, Nomor HP Orang Tua, Alamat Orang Tua, Pekerjaan Orang Tua

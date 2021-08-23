@@ -170,7 +170,7 @@
               <div class="col-lg-2 col-md-3"></div>
               <div class="col-lg-10 col-md-9">
                   <button type="submit" class="btn btn-primary">Submit</button>
-                  <a href="/admin/posisi" class="btn btn-secondary">Kembali</a>
+                  <a href="/admin/hrd" class="btn btn-secondary">Kembali</a>
               </div>
           </div>
       </form>

@@ -1,11 +1,13 @@
 @extends('template/admin/main')
 
+@section('title', 'Data Karyawan')
+
 @section('content')
 
   <!-- Page Heading -->
-  <div class="page-heading shadow d-flex justify-content-between align-items-center">
+  <div class="page-heading shadow d-none">
     <h1 class="h3 text-gray-800">Data Karyawan</h1>
-    <ol class="breadcrumb">
+    <ol class="breadcrumb" id="breadcrumb">
       <li class="breadcrumb-item"><i class="fas fa-tachometer-alt"></i></li>
       <li class="breadcrumb-item"><a href="/admin/karyawan">Karyawan</a></li>
       <li class="breadcrumb-item active" aria-current="page">Data Karyawan</li>
@@ -49,7 +51,7 @@
         </div>
       @endif
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th width="20"><input type="checkbox"></th>

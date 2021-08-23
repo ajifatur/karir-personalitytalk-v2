@@ -1,11 +1,13 @@
 @extends('template/admin/main')
 
+@section('title', 'Tambah Karyawan')
+
 @section('content')
 
   <!-- Page Heading -->
-  <div class="page-heading shadow d-flex justify-content-between align-items-center">
+  <div class="page-heading shadow d-none">
     <h1 class="h3 text-gray-800">Tambah Karyawan</h1>
-    <ol class="breadcrumb">
+    <ol class="breadcrumb" id="breadcrumb">
       <li class="breadcrumb-item"><i class="fas fa-tachometer-alt"></i></li>
       <li class="breadcrumb-item"><a href="/admin/karyawan">Karyawan</a></li>
       <li class="breadcrumb-item active" aria-current="page">Tambah Karyawan</li>

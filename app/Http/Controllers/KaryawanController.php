@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Exports\KaryawanExport;
-use App\Models\Imports\KaryawanImport;
+use App\Exports\KaryawanExport;
+use App\Imports\KaryawanImport;
 use App\Models\HRD;
 use App\Models\Karyawan;
 use App\Models\Kantor;
@@ -85,7 +85,7 @@ class KaryawanController extends Controller
     public function index(Request $request)
     {
     	// View
-        return view('karyawan/index');
+        return view('admin/karyawan/index');
     }
 
     /**
@@ -110,7 +110,7 @@ class KaryawanController extends Controller
         }
         
         // View
-        return view('karyawan/create', [
+        return view('admin/karyawan/create', [
             'hrd' => $hrd,
             'posisi' => $posisi,
             'kantor' => $kantor,
@@ -242,7 +242,7 @@ class KaryawanController extends Controller
             $karyawan->posisi = Posisi::find($karyawan->posisi);
             
             // View
-            return view('karyawan/detail', [
+            return view('admin/karyawan/detail', [
                 'karyawan' => $karyawan,
             ]);
         }
@@ -287,7 +287,7 @@ class KaryawanController extends Controller
         }
 
         // View
-        return view('karyawan/edit', [
+        return view('admin/karyawan/edit', [
             'karyawan' => $karyawan,
             'posisi' => $posisi,
             'kantor' => $kantor,

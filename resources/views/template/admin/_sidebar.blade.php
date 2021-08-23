@@ -12,9 +12,8 @@
   </a>
 
   <!-- Divider -->
-  <hr class="sidebar-divider my-0">
+  <hr class="sidebar-divider mt-0">
 
-  <!-- Nav Item - Dashboard -->
   <li class="nav-item {{ Request::path() == 'admin' ? 'active' : '' }}">
     <a class="nav-link" href="/admin">
       <i class="fas fa-fw fa-tachometer-alt"></i>

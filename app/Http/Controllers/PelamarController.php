@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Exports\PelamarExport;
+use App\Exports\PelamarExport;
 use App\Models\Agama;
 use App\Models\HRD;
 use App\Models\Karyawan;
@@ -88,31 +88,8 @@ class PelamarController extends Controller
      */
     public function index(Request $request)
     {
-    	// // Get data pelamar
-        // if(Auth::user()->role == role_admin()){
-		// 	if($request->query('hrd') != null){
-        //     	$hrd = HRD::find($request->query('hrd'));
-    	//     	$pelamar = $hrd ? Pelamar::where('id_hrd','=',$request->query('hrd'))->orderBy('created_at','desc')->get() : Pelamar::orderBy('created_at','desc')->get();
-		// 	}
-		// 	else{
-    	//     	$pelamar = Pelamar::orderBy('created_at','desc')->get();
-		// 	}
-        // }
-        // elseif(Auth::user()->role == role_hrd()){
-        //     $hrd = HRD::where('id_user','=',Auth::user()->id_user)->first();
-    	//     $pelamar = Pelamar::where('id_hrd','=',$hrd->id_hrd)->orderBy('created_at','desc')->get();
-        // }
-        
-    	// // Setting data pelamar
-        // foreach($pelamar as $key=>$data){
-        //     $data->id_user = User::find($data->id_user);
-        //     $data->id_hrd = HRD::find($data->id_hrd);
-		// 	$lowongan = Lowongan::join('posisi','lowongan.posisi','=','posisi.id_posisi')->find($data->posisi);
-        //     $lowongan != null ? $data->posisi = $lowongan : $pelamar->forget($key);
-        // }
-
     	// View
-    	return view('pelamar/index');
+    	return view('admin/pelamar/index');
     }
 
     /**
@@ -153,7 +130,7 @@ class PelamarController extends Controller
             $pelamar->keahlian = json_decode($pelamar->keahlian, true);
 
             // View
-            return view('pelamar/detail', [
+            return view('admin/pelamar/detail', [
                 'pelamar' => $pelamar,
                 'seleksi' => $seleksi,
             ]);
@@ -191,9 +168,9 @@ class PelamarController extends Controller
 
         // Data agama
         $agama = Agama::all();
-
+        
         // View
-        return view('pelamar/edit', [
+        return view('admin/pelamar/edit', [
         	'pelamar' => $pelamar,
         	'agama' => $agama,
         ]);

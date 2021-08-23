@@ -18,7 +18,6 @@ Route::group(['middleware' => ['guest']], function(){
 
 	// Home
 	Route::get('/', function () {
-	   // return view('index');
 	   return redirect('/login');
 	});
 
@@ -57,7 +56,7 @@ Route::group(['middleware' => ['guest']], function(){
 	Route::post('/register', 'Auth\RegisterController@submitRegistrationForm');
 });
     
-// Admin Capabilities....
+// Admin Capabilities
 Route::group(['middleware' => ['admin']], function(){
 
 	// Logout
@@ -65,7 +64,15 @@ Route::group(['middleware' => ['admin']], function(){
 
 	// Dashboard
 	Route::get('/admin', 'DashboardController@index');
-	// Route::get('/admin/send-email', 'ApplicantRegisterController@sendMailToHRD');
+
+	// Company
+	Route::get('/admin/company', 'CompanyController@index')->name('admin.company.index');
+	Route::get('/admin/company/create', 'CompanyController@create')->name('admin.company.create');
+	Route::post('/admin/company/store', 'CompanyController@store')->name('admin.company.store');
+	Route::get('/admin/company/detail/{id}', 'CompanyController@detail')->name('admin.company.detail');
+	Route::get('/admin/company/edit/{id}', 'CompanyController@edit')->name('admin.company.edit');
+	Route::post('/admin/company/update', 'CompanyController@update')->name('admin.company.update');
+	Route::post('/admin/company/destroy', 'CompanyController@destroy')->name('admin.company.destroy');
 	
 	// Profil
 	Route::get('/admin/profil', 'HRDController@profile');

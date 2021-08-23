@@ -2,23 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tes extends Model
+class CompanyTest extends Model
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tes';
+    protected $table = 'company_test';
 
     /**
-     * The primary key for the model.
+     * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'id_tes';
+    protected $primaryKey = null;
+    
+    /**
+     * Indicates if the model's ID is auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     /**
      * Fill the model with an array of attributes.
@@ -28,11 +38,7 @@ class Tes extends Model
      *
      * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
-    protected $fillable = [
-        'nama_tes',
-        'path',
-		'waktu_tes'
-	];
+    protected $fillable = ['company_id', 'test_id'];
 
     /**
      * Indicates if the model should be timestamped.

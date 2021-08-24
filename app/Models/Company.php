@@ -43,6 +43,14 @@ class Company extends Model
     }
 
     /**
+     * Get the positions for the company.
+     */
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
+
+    /**
      * The tests that belong to the company.
      */
     public function tests()

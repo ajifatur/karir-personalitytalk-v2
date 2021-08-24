@@ -60,7 +60,7 @@
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('company.db_field.founded_on') }}:</label>
 					<div class="col-lg-10 col-md-9">
 						<div class="input-group">
-							<input name="founded_on" type="text" class="form-control {{ $errors->has('founded_on') ? 'is-invalid' : '' }}" value="{{ generate_date_format($company->founded_on, 'd/m/y') }}">
+							<input name="founded_on" type="text" class="form-control {{ $errors->has('founded_on') ? 'is-invalid' : '' }}" value="{{ generate_date_format($company->founded_on, 'd/m/y') }}" placeholder="dd/mm/yyyy">
 							<div class="input-group-append">
 								<span class="input-group-text {{ $errors->has('founded_on') ? 'border-outline-danger' : 'border-outline-primary' }}"><i class="fa fa-calendar"></i></span>
 							</div>

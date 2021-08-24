@@ -43,33 +43,27 @@
 		<i class="fas fa-fw fa-home"></i>
 		<span>{{ __('office.name') }}</span></a>
 	</li>
-	<li class="nav-item {{ strpos(Request::url(), '/admin/posisi') ? 'active' : '' }}">
-		<a class="nav-link" href="/admin/posisi">
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.position.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.position.index') }}">
 		<i class="fas fa-fw fa-route"></i>
-		<span>Jabatan</span></a>
+		<span>{{ __('position.name') }}</span></a>
 	</li>
 	<li class="nav-item {{ strpos(Request::url(), '/admin/lowongan') ? 'active' : '' }}">
 		<a class="nav-link" href="/admin/lowongan">
 		<i class="fas fa-fw fa-bolt"></i>
 		<span>Lowongan</span>
-		@if(count_pelamar_belum_diseleksi() > 0)
-		<span class="float-md-right badge badge-warning text-dark" data-toggle="tooltip" title="Ada {{ count_pelamar_belum_diseleksi() }} pelamar yang belum diseleksi">{{ count_pelamar_belum_diseleksi() }}</span>
-		@endif
 		</a>
 	</li>
 	<li class="nav-item {{ strpos(Request::url(), '/admin/seleksi') ? 'active' : '' }}">
 		<a class="nav-link" href="/admin/seleksi">
 		<i class="fas fa-fw fa-user-check"></i>
 		<span>Seleksi</span>
-		@if(count_pelamar_belum_dites() > 0)
-		<span class="float-md-right badge badge-warning text-dark" data-toggle="tooltip" title="Ada {{ count_pelamar_belum_dites() }} pelamar yang belum dites">{{ count_pelamar_belum_dites() }}</span>
-		@endif
 		</a>
 	</li>
 	<li class="nav-item {{ strpos(Request::url(), '/admin/hasil') ? 'active' : '' }}">
 		<a class="nav-link {{ strpos(Request::url(), '/admin/hasil') ? '' : '' }}" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-		<i class="fas fa-fw fa-chart-line"></i>
-		<span>Hasil Tes</span>
+            <i class="fas fa-fw fa-chart-line"></i>
+            <span>Hasil Tes</span>
 		</a>
 		<div id="collapseTwo" class="collapse {{ strpos(Request::url(), '/admin/hasil') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">

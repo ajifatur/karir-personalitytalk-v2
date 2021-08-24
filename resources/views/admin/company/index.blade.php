@@ -49,8 +49,12 @@
 							<td><input type="checkbox"></td>
 							<td>
 								<a href="{{ route('admin.company.detail', ['id' => $company->id]) }}">{{ $company->name }}</a>
-								<br>
-								<small class="text-muted">{{ $company->phone_number }}</small>
+								@if($company->address != '')
+								<br><small class="text-muted"><i class="fa fa-map-marker-alt mr-2"></i>{{ $company->address }}</small>
+								@endif
+								@if($company->phone_number != '')
+								<br><small class="text-muted"><i class="fa fa-phone mr-2"></i>{{ $company->phone_number }}</small>
+								@endif
 							</td>
 							<td>
 								<a href="#">{{ $company->user->name }}</a>
@@ -62,7 +66,7 @@
 								<span class="d-none">{{ $company->updated_at }}</span>
 								{{ date('d/m/Y', strtotime($company->updated_at)) }}
 								<br>
-								<small class="text-muted">{{ date('H:i', strtotime($company->updated_at)) }}</small>
+								<small class="text-muted"><i class="fa fa-clock mr-2"></i>{{ date('H:i', strtotime($company->updated_at)) }}</small>
 							</td>
 							<td>
 								<div class="btn-group">

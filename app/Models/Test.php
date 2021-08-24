@@ -40,4 +40,12 @@ class Test extends Model
     {
         return $this->belongsToMany(Company::class, 'company_test', 'test_id', 'company_id');
     }
+
+    /**
+     * The positions that belong to the test.
+     */
+    public function positions()
+    {
+        return $this->belongsToMany(Position::class, 'position_test', 'test_id', 'position_id');
+    }
 }

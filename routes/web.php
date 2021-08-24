@@ -82,6 +82,15 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/office/edit/{id}', 'OfficeController@edit')->name('admin.office.edit');
 	Route::post('/admin/office/update', 'OfficeController@update')->name('admin.office.update');
 	Route::post('/admin/office/delete', 'OfficeController@delete')->name('admin.office.delete');
+
+	// Position
+	Route::get('/admin/position', 'PositionController@index')->name('admin.position.index');
+	Route::get('/admin/position/create', 'PositionController@create')->name('admin.position.create');
+	Route::post('/admin/position/store', 'PositionController@store')->name('admin.position.store');
+	Route::get('/admin/position/detail/{id}', 'PositionController@detail')->name('admin.position.detail');
+	Route::get('/admin/position/edit/{id}', 'PositionController@edit')->name('admin.position.edit');
+	Route::post('/admin/position/update', 'PositionController@update')->name('admin.position.update');
+	Route::post('/admin/position/delete', 'PositionController@delete')->name('admin.position.delete');
 	
 	// Profil
 	Route::get('/admin/profil', 'HRDController@profile');

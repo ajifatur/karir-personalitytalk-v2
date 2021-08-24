@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'role';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id_role';
+    protected $table = 'roles';
 
     /**
      * Fill the model with an array of attributes.
@@ -28,14 +24,13 @@ class Role extends Model
      *
      * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
-    protected $fillable = [
-        'nama_role',
-	];
+    protected $fillable = ['name', 'code', 'has_access'];
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
+     * Get the positions for the role.
      */
-    public $timestamps = false;
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
 }

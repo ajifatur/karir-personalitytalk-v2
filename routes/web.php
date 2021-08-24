@@ -73,6 +73,15 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/company/edit/{id}', 'CompanyController@edit')->name('admin.company.edit');
 	Route::post('/admin/company/update', 'CompanyController@update')->name('admin.company.update');
 	Route::post('/admin/company/delete', 'CompanyController@delete')->name('admin.company.delete');
+
+	// Office
+	Route::get('/admin/office', 'OfficeController@index')->name('admin.office.index');
+	Route::get('/admin/office/create', 'OfficeController@create')->name('admin.office.create');
+	Route::post('/admin/office/store', 'OfficeController@store')->name('admin.office.store');
+	Route::get('/admin/office/detail/{id}', 'OfficeController@detail')->name('admin.office.detail');
+	Route::get('/admin/office/edit/{id}', 'OfficeController@edit')->name('admin.office.edit');
+	Route::post('/admin/office/update', 'OfficeController@update')->name('admin.office.update');
+	Route::post('/admin/office/delete', 'OfficeController@delete')->name('admin.office.delete');
 	
 	// Profil
 	Route::get('/admin/profil', 'HRDController@profile');

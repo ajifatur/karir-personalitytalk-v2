@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Office;
 use App\Models\Company;
-use App\Models\Test;
 
-class CompanyController extends Controller
+class OfficeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        // Get companies
-        $companies = Company::all();
+        // Get offices
+        $offices = Office::all();
         
         // View
-        return view('admin/company/index', [
-            'companies' => $companies
+        return view('admin/office/index', [
+            'offices' => $offices
         ]);
     }
 
@@ -32,12 +32,12 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        // Get tests
-        $tests = Test::all();
+        // Get companies
+        $companies = Company::all();
 
         // View
-        return view('admin/company/create', [
-            'tests' => $tests
+        return view('admin/office/create', [
+            'companies' => $companies
         ]);
     }
 
@@ -52,7 +52,7 @@ class CompanyController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required|unique:companies|min:3',
+            'company' => 'required',
         ]);
         
         // Check errors
@@ -61,22 +61,17 @@ class CompanyController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Save the company
-            $company = new Company;
-            $company->name = $request->name;
-            $company->code = $request->code;
-            $company->address = $request->address;
-            $company->phone_number = $request->phone_number;
-            $company->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
-            $company->save();
-
-            // Attach company tests
-            if($request->get('tests') != null){
-                $company->tests()->attach($request->get('tests'));
-            }
+            // Save the office
+            $office = new Office;
+            $office->company_id = $request->company;
+            $office->name = $request->name;
+            $office->address = $request->address;
+            $office->phone_number = $request->phone_number;
+            $office->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
+            $office->save();
 
             // Redirect
-            return redirect()->route('admin.company.index')->with(['message' => 'Berhasil menambah data.']);
+            return redirect()->route('admin.office.index')->with(['message' => 'Berhasil menambah data.']);
         }
     }
 
@@ -99,16 +94,16 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        // Get the company
-        $company = Company::findOrFail($id);
+        // Get the office
+        $office = Office::findOrFail($id);
 
-        // Get tests
-        $tests = Test::all();
+        // Get companies
+        $companies = Company::all();
 
         // View
-        return view('admin/company/edit', [
-            'company' => $company,
-            'tests' => $tests,
+        return view('admin/office/edit', [
+            'office' => $office,
+            'companies' => $companies,
         ]);
     }
 
@@ -123,7 +118,6 @@ class CompanyController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required|unique:companies|min:3',
         ]);
         
         // Check errors
@@ -132,20 +126,16 @@ class CompanyController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Update the company
-            $company = Company::find($request->id);
-            $company->name = $request->name;
-            $company->code = $request->code;
-            $company->address = $request->address;
-            $company->phone_number = $request->phone_number;
-            $company->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
-            $company->save();
-
-            // Sync company tests
-            $company->tests()->sync($request->get('tests'));
+            // Update the office
+            $office = Office::find($request->id);
+            $office->name = $request->name;
+            $office->address = $request->address;
+            $office->phone_number = $request->phone_number;
+            $office->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
+            $office->save();
 
             // Redirect
-            return redirect()->route('admin.company.index')->with(['message' => 'Berhasil mengupdate data.']);
+            return redirect()->route('admin.office.index')->with(['message' => 'Berhasil mengupdate data.']);
         }
     }
 
@@ -157,16 +147,13 @@ class CompanyController extends Controller
      */
     public function delete(Request $request)
     {
-        // Get the company
-        $company = Company::find($request->id);
+        // Get the office
+        $office = Office::find($request->id);
 
-        // Detach company tests
-        $company->tests()->detach();
-
-        // Delete the company
-        $company->delete();
+        // Delete the office
+        $office->delete();
 
         // Redirect
-        return redirect()->route('admin.company.index')->with(['message' => 'Berhasil menghapus data.']);
+        return redirect()->route('admin.office.index')->with(['message' => 'Berhasil menghapus data.']);
     }
 }

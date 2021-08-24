@@ -40,6 +40,7 @@
     #dataTable thead tr th {text-align: center;}
     #dataTable tbody tr td:first-child, #dataTable tbody tr td:last-child {text-align: center;}
     #dataTable td a.btn {width: 36px;}
+    #dataTable tr td small .fa {width: 12px;}
     div.dataTables_wrapper div.dataTables_processing {background-color: #eeeeee;}
 
     /* Profile */

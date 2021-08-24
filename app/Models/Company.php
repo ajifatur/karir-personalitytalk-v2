@@ -27,18 +27,19 @@ class Company extends Model
     protected $fillable = ['name', 'code', 'address', 'phone_number', 'founded_on'];
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    // public $timestamps = false;
-
-    /**
      * Get the user that owns the company.
      */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get the offices for the company.
+     */
+    public function offices()
+    {
+        return $this->hasMany(Office::class);
     }
 
     /**

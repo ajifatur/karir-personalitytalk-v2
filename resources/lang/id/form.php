@@ -11,6 +11,8 @@ return [
     |
     */
 
+    'choose' => 'Pilih',
+    'choose-' => '--Pilih--',
     'submit' => 'Submit',
     'back' => 'Kembali',
 ];

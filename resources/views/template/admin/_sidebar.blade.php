@@ -48,11 +48,10 @@
 		<i class="fas fa-fw fa-route"></i>
 		<span>{{ __('position.name') }}</span></a>
 	</li>
-	<li class="nav-item {{ strpos(Request::url(), '/admin/lowongan') ? 'active' : '' }}">
-		<a class="nav-link" href="/admin/lowongan">
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.vacancy.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.vacancy.index') }}">
 		<i class="fas fa-fw fa-bolt"></i>
-		<span>Lowongan</span>
-		</a>
+		<span>{{ __('vacancy.name') }}</span></a>
 	</li>
 	<li class="nav-item {{ strpos(Request::url(), '/admin/seleksi') ? 'active' : '' }}">
 		<a class="nav-link" href="/admin/seleksi">
@@ -122,16 +121,22 @@
     <!-- Heading -->
     <div class="sidebar-heading">Master</div>
 
-    <li class="nav-item {{ strpos(Request::url(), '/admin/agama') ? 'active' : '' }}">
-        <a class="nav-link" href="/admin/agama">
-        <i class="fas fa-fw fa-mosque"></i>
-        <span>Agama</span></a>
-    </li>
-    <li class="nav-item {{ strpos(Request::url(), '/admin/tes') ? 'active' : '' }}">
-        <a class="nav-link" href="/admin/tes">
-        <i class="fas fa-fw fa-clipboard"></i>
-        <span>Tes</span></a>
-    </li>
+    <!-- Nav Item -->
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.role.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.role.index') }}">
+		<i class="fas fa-fw fa-key"></i>
+		<span>{{ __('role.name') }}</span></a>
+	</li>
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.test.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.test.index') }}">
+		<i class="fas fa-fw fa-clipboard"></i>
+		<span>{{ __('test.name') }}</span></a>
+	</li>
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.religion.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.religion.index') }}">
+		<i class="fas fa-fw fa-mosque"></i>
+		<span>{{ __('religion.name') }}</span></a>
+	</li>
     @endif  
 
     <!-- Divider -->

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Role;
+use App\Models\Religion;
 
-class RoleController extends Controller
+class ReligionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        // Get roles
-        $roles = Role::all();
+        // Get religions
+        $religions = Religion::all();
         
         // View
-        return view('admin/role/index', [
-            'roles' => $roles
+        return view('admin/religion/index', [
+            'religions' => $religions
         ]);
     }
 
@@ -32,7 +32,7 @@ class RoleController extends Controller
     public function create()
     {
         // View
-        return view('admin/role/create');
+        return view('admin/religion/create');
     }
 
     /**
@@ -46,9 +46,6 @@ class RoleController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required|alpha_dash|unique:roles',
-            'has_access' => 'required',
-            'has_position' => 'required',
         ]);
         
         // Check errors
@@ -57,16 +54,13 @@ class RoleController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Save the role
-            $role = new Role;
-            $role->name = $request->name;
-            $role->code = $request->code;
-            $role->has_access = $request->has_access;
-            $role->has_position = $request->has_position;
-            $role->save();
+            // Save the religion
+            $religion = new Religion;
+            $religion->name = $request->name;
+            $religion->save();
 
             // Redirect
-            return redirect()->route('admin.role.index')->with(['message' => 'Berhasil menambah data.']);
+            return redirect()->route('admin.religion.index')->with(['message' => 'Berhasil menambah data.']);
         }
     }
 

@@ -4,35 +4,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Position Language Lines
+    | Religion Language Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are the default lines for position table.
+    | The following language lines are the default lines for religion table.
     |
     */
 
-    'name' => 'Jabatan',
+    'name' => 'Agama',
 
     'db_field' => [
         'id' => 'ID',
-        'company' => 'Perusahaan',
-        'role' => 'Role',
         'name' => 'Nama',
         'created_at' => 'Waktu Dibuat',
         'updated_at' => 'Waktu Diubah',
     ],
 
     'title' => [
-        'index' => 'Data Jabatan',
-        'create' => 'Tambah Jabatan',
-        'edit' => 'Edit Jabatan',
-        'delete' => 'Hapus Jabatan',
+        'index' => 'Data Agama',
+        'create' => 'Tambah Agama',
+        'edit' => 'Edit Agama',
+        'delete' => 'Hapus Agama',
     ],
 
     'table_field' => [
-        'position' => 'Jabatan',
-        'company' => 'Perusahaan',
-        'role' => 'Role',
+        'name' => 'Nama',
         'updated_at' => 'Diubah',
         'options' => 'Opsi',
     ],
@@ -40,10 +36,5 @@ return [
     'table_action' => [
         'edit' => 'Edit',
         'delete' => 'Hapus',
-    ],
-
-    'form' => [
-        'test' => 'Tes',
-        'skill' => 'Keahlian / Kualifikasi',
     ],
 ];

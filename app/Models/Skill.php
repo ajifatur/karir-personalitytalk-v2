@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Skill extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Role extends Model
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'skills';
 
     /**
      * Fill the model with an array of attributes.
@@ -24,13 +24,13 @@ class Role extends Model
      *
      * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
-    protected $fillable = ['name', 'code', 'has_access', 'has_position'];
+    protected $fillable = ['name'];
 
     /**
-     * Get the positions for the role.
+     * The positions that belong to the test.
      */
     public function positions()
     {
-        return $this->hasMany(Position::class);
+        return $this->belongsToMany(Position::class, 'position_skill', 'skill_id', 'position_id');
     }
 }

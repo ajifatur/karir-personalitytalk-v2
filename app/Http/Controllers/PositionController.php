@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Position;
+use App\Models\Company;
+use App\Models\Role;
+use App\Models\Skill;
+use App\Models\Test;
 
 class PositionController extends Controller
 {
@@ -34,9 +38,17 @@ class PositionController extends Controller
         // Get companies
         $companies = Company::all();
 
+        // Get roles that have position
+        $roles = Role::where('has_position','=',1)->get();
+
+        // Get tests
+        $tests = Test::all();
+
         // View
-        return view('admin/office/create', [
-            'companies' => $companies
+        return view('admin/position/create', [
+            'companies' => $companies,
+            'roles' => $roles,
+            'tests' => $tests,
         ]);
     }
 
@@ -52,6 +64,7 @@ class PositionController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'company' => 'required',
+            'role' => 'required',
         ]);
         
         // Check errors
@@ -60,17 +73,28 @@ class PositionController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Save the office
-            $office = new Office;
-            $office->company_id = $request->company;
-            $office->name = $request->name;
-            $office->address = $request->address;
-            $office->phone_number = $request->phone_number;
-            $office->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
-            $office->save();
+            // Save the position
+            $position = new Position;
+            $position->company_id = $request->company;
+            $position->role_id = $request->role;
+            $position->name = $request->name;
+            $position->save();
+
+            // Attach position tests
+            if($request->get('tests') != null){
+                $position->tests()->attach($request->get('tests'));
+            }
+
+            // Attach position skills
+            if(array_filter($request->get('skills')) != null){
+                foreach(array_filter($request->get('skills')) as $s){
+                    $skill = Skill::firstOrCreate(['name' => $s]); // Get skill by name or create
+                    $position->skills()->attach($skill->id);
+                }
+            }
 
             // Redirect
-            return redirect()->route('admin.office.index')->with(['message' => 'Berhasil menambah data.']);
+            return redirect()->route('admin.position.index')->with(['message' => 'Berhasil menambah data.']);
         }
     }
 
@@ -93,16 +117,24 @@ class PositionController extends Controller
      */
     public function edit($id)
     {
-        // Get the office
-        $office = Office::findOrFail($id);
+        // Get the position
+        $position = Position::findOrFail($id);
 
         // Get companies
         $companies = Company::all();
 
+        // Get roles that have position
+        $roles = Role::where('has_position','=',1)->get();
+
+        // Get tests
+        $tests = Test::all();
+
         // View
-        return view('admin/office/edit', [
-            'office' => $office,
+        return view('admin/position/edit', [
+            'position' => $position,
             'companies' => $companies,
+            'roles' => $roles,
+            'tests' => $tests,
         ]);
     }
 
@@ -117,6 +149,8 @@ class PositionController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'company' => 'required',
+            'role' => 'required',
         ]);
         
         // Check errors
@@ -125,16 +159,28 @@ class PositionController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Update the office
-            $office = Office::find($request->id);
-            $office->name = $request->name;
-            $office->address = $request->address;
-            $office->phone_number = $request->phone_number;
-            $office->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
-            $office->save();
+            // Update the position
+            $position = Position::find($request->id);
+            $position->company_id = $request->company;
+            $position->role_id = $request->role;
+            $position->name = $request->name;
+            $position->save();
+
+            // Sync position tests
+            $position->tests()->sync($request->get('tests'));
+
+            // Sync position skills
+            $updatedSkills = [];
+            if(array_filter($request->get('skills')) != null){
+                foreach(array_filter($request->get('skills')) as $s){
+                    $skill = Skill::firstOrCreate(['name' => $s]); // Get skill by name or create
+                    array_push($updatedSkills, $skill->id); // Push to array updated skills
+                }
+            }
+            $position->skills()->sync($updatedSkills); // Sync
 
             // Redirect
-            return redirect()->route('admin.office.index')->with(['message' => 'Berhasil mengupdate data.']);
+            return redirect()->route('admin.position.index')->with(['message' => 'Berhasil mengupdate data.']);
         }
     }
 
@@ -146,13 +192,19 @@ class PositionController extends Controller
      */
     public function delete(Request $request)
     {
-        // Get the office
-        $office = Office::find($request->id);
+        // Get the position
+        $position = Position::find($request->id);
 
-        // Delete the office
-        $office->delete();
+        // Detach position skills
+        $position->skills()->detach();
+
+        // Detach position tests
+        $position->tests()->detach();
+
+        // Delete the position
+        $position->delete();
 
         // Redirect
-        return redirect()->route('admin.office.index')->with(['message' => 'Berhasil menghapus data.']);
+        return redirect()->route('admin.position.index')->with(['message' => 'Berhasil menghapus data.']);
     }
 }

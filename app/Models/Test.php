@@ -27,13 +27,6 @@ class Test extends Model
     protected $fillable = ['name', 'code'];
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The companies that belong to the test.
      */
     public function companies()

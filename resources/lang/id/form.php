@@ -15,4 +15,9 @@ return [
     'choose-' => '--Pilih--',
     'submit' => 'Submit',
     'back' => 'Kembali',
+    'add' => 'Tambah',
+    'edit' => 'Edit',
+    'delete' => 'Hapus',
+    'yes' => 'Ya',
+    'no' => 'Tidak',
 ];

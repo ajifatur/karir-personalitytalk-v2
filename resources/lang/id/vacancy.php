@@ -11,28 +11,31 @@ return [
     |
     */
 
-    'name' => 'Jabatan',
+    'name' => 'Lowongan',
 
     'db_field' => [
         'id' => 'ID',
         'company' => 'Perusahaan',
-        'role' => 'Role',
-        'name' => 'Nama',
+        'position' => 'Jabatan',
+        'code' => 'Kode',
+        'start_date' => 'Tanggal Dibuka',
+        'end_date' => 'Tanggal Ditutup',
         'created_at' => 'Waktu Dibuat',
         'updated_at' => 'Waktu Diubah',
     ],
 
     'title' => [
-        'index' => 'Data Jabatan',
-        'create' => 'Tambah Jabatan',
-        'edit' => 'Edit Jabatan',
-        'delete' => 'Hapus Jabatan',
+        'index' => 'Data Lowongan',
+        'create' => 'Tambah Lowongan',
+        'edit' => 'Edit Lowongan',
+        'delete' => 'Hapus Lowongan',
     ],
 
     'table_field' => [
-        'position' => 'Jabatan',
+        'vacancy' => 'Lowongan',
+        'start_date' => 'Dibuka',
+        'end_date' => 'Ditutup',
         'company' => 'Perusahaan',
-        'role' => 'Role',
         'updated_at' => 'Diubah',
         'options' => 'Opsi',
     ],
@@ -40,10 +43,5 @@ return [
     'table_action' => [
         'edit' => 'Edit',
         'delete' => 'Hapus',
-    ],
-
-    'form' => [
-        'test' => 'Tes',
-        'skill' => 'Keahlian / Kualifikasi',
     ],
 ];

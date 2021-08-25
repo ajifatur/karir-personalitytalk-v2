@@ -4,35 +4,35 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Position Language Lines
+    | Role Language Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are the default lines for position table.
+    | The following language lines are the default lines for role table.
     |
     */
 
-    'name' => 'Jabatan',
+    'name' => 'Role',
 
     'db_field' => [
         'id' => 'ID',
-        'company' => 'Perusahaan',
-        'role' => 'Role',
         'name' => 'Nama',
+        'code' => 'Kode',
+        'has_access' => 'Punya Akses',
+        'has_position' => 'Punya Posisi',
         'created_at' => 'Waktu Dibuat',
         'updated_at' => 'Waktu Diubah',
     ],
 
     'title' => [
-        'index' => 'Data Jabatan',
-        'create' => 'Tambah Jabatan',
-        'edit' => 'Edit Jabatan',
-        'delete' => 'Hapus Jabatan',
+        'index' => 'Data Role',
+        'create' => 'Tambah Role',
+        'edit' => 'Edit Role',
+        'delete' => 'Hapus Role',
     ],
 
     'table_field' => [
-        'position' => 'Jabatan',
-        'company' => 'Perusahaan',
-        'role' => 'Role',
+        'name' => 'Nama',
+        'code' => 'Kode',
         'updated_at' => 'Diubah',
         'options' => 'Opsi',
     ],
@@ -40,10 +40,5 @@ return [
     'table_action' => [
         'edit' => 'Edit',
         'delete' => 'Hapus',
-    ],
-
-    'form' => [
-        'test' => 'Tes',
-        'skill' => 'Keahlian / Kualifikasi',
     ],
 ];

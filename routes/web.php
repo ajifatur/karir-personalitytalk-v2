@@ -91,6 +91,42 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/position/edit/{id}', 'PositionController@edit')->name('admin.position.edit');
 	Route::post('/admin/position/update', 'PositionController@update')->name('admin.position.update');
 	Route::post('/admin/position/delete', 'PositionController@delete')->name('admin.position.delete');
+
+	// Vacancy
+	Route::get('/admin/vacancy', 'VacancyController@index')->name('admin.vacancy.index');
+	Route::get('/admin/vacancy/create', 'VacancyController@create')->name('admin.vacancy.create');
+	Route::post('/admin/vacancy/store', 'VacancyController@store')->name('admin.vacancy.store');
+	Route::get('/admin/vacancy/detail/{id}', 'VacancyController@detail')->name('admin.vacancy.detail');
+	Route::get('/admin/vacancy/edit/{id}', 'VacancyController@edit')->name('admin.vacancy.edit');
+	Route::post('/admin/vacancy/update', 'VacancyController@update')->name('admin.vacancy.update');
+	Route::post('/admin/vacancy/delete', 'VacancyController@delete')->name('admin.vacancy.delete');
+
+	// Role
+	Route::get('/admin/role', 'RoleController@index')->name('admin.role.index');
+	Route::get('/admin/role/create', 'RoleController@create')->name('admin.role.create');
+	Route::post('/admin/role/store', 'RoleController@store')->name('admin.role.store');
+	Route::get('/admin/role/detail/{id}', 'RoleController@detail')->name('admin.role.detail');
+	Route::get('/admin/role/edit/{id}', 'RoleController@edit')->name('admin.role.edit');
+	Route::post('/admin/role/update', 'RoleController@update')->name('admin.role.update');
+	Route::post('/admin/role/delete', 'RoleController@delete')->name('admin.role.delete');
+
+	// Test
+	Route::get('/admin/test', 'TestController@index')->name('admin.test.index');
+	Route::get('/admin/test/create', 'TestController@create')->name('admin.test.create');
+	Route::post('/admin/test/store', 'TestController@store')->name('admin.test.store');
+	Route::get('/admin/test/detail/{id}', 'TestController@detail')->name('admin.test.detail');
+	Route::get('/admin/test/edit/{id}', 'TestController@edit')->name('admin.test.edit');
+	Route::post('/admin/test/update', 'TestController@update')->name('admin.test.update');
+	Route::post('/admin/test/delete', 'TestController@delete')->name('admin.test.delete');
+
+	// Religion
+	Route::get('/admin/religion', 'ReligionController@index')->name('admin.religion.index');
+	Route::get('/admin/religion/create', 'ReligionController@create')->name('admin.religion.create');
+	Route::post('/admin/religion/store', 'ReligionController@store')->name('admin.religion.store');
+	Route::get('/admin/religion/detail/{id}', 'ReligionController@detail')->name('admin.religion.detail');
+	Route::get('/admin/religion/edit/{id}', 'ReligionController@edit')->name('admin.religion.edit');
+	Route::post('/admin/religion/update', 'ReligionController@update')->name('admin.religion.update');
+	Route::post('/admin/religion/delete', 'ReligionController@delete')->name('admin.religion.delete');
 	
 	// Profil
 	Route::get('/admin/profil', 'HRDController@profile');

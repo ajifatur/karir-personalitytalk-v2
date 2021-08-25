@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Role;
+use App\Models\Test;
 
-class RoleController extends Controller
+class TestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +16,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        // Get roles
-        $roles = Role::all();
+        // Get tests
+        $tests = Test::all();
         
         // View
-        return view('admin/role/index', [
-            'roles' => $roles
+        return view('admin/test/index', [
+            'tests' => $tests
         ]);
     }
 
@@ -32,7 +33,7 @@ class RoleController extends Controller
     public function create()
     {
         // View
-        return view('admin/role/create');
+        return view('admin/test/create');
     }
 
     /**
@@ -46,9 +47,7 @@ class RoleController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required|alpha_dash|unique:roles',
-            'has_access' => 'required',
-            'has_position' => 'required',
+            'code' => 'required|alpha_dash|unique:tests',
         ]);
         
         // Check errors
@@ -57,16 +56,14 @@ class RoleController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Save the role
-            $role = new Role;
-            $role->name = $request->name;
-            $role->code = $request->code;
-            $role->has_access = $request->has_access;
-            $role->has_position = $request->has_position;
-            $role->save();
+            // Save the test
+            $test = new Test;
+            $test->name = $request->name;
+            $test->code = $request->code;
+            $test->save();
 
             // Redirect
-            return redirect()->route('admin.role.index')->with(['message' => 'Berhasil menambah data.']);
+            return redirect()->route('admin.test.index')->with(['message' => 'Berhasil menambah data.']);
         }
     }
 
@@ -89,12 +86,12 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        // Get the religion
-        $religion = Religion::findOrFail($id);
+        // Get the test
+        $test = Test::findOrFail($id);
 
         // View
-        return view('admin/religion/edit', [
-            'religion' => $religion
+        return view('admin/test/edit', [
+            'test' => $test
         ]);
     }
 
@@ -109,6 +106,7 @@ class RoleController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'code' => 'required|alpha_dash',
         ]);
         
         // Check errors
@@ -117,13 +115,14 @@ class RoleController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Update the religion
-            $religion = Religion::find($request->id);
-            $religion->name = $request->name;
-            $religion->save();
+            // Update the test
+            $test = Test::find($request->id);
+            $test->name = $request->name;
+            $test->code = $request->code;
+            $test->save();
 
             // Redirect
-            return redirect()->route('admin.religion.index')->with(['message' => 'Berhasil mengupdate data.']);
+            return redirect()->route('admin.test.index')->with(['message' => 'Berhasil mengupdate data.']);
         }
     }
 
@@ -135,13 +134,19 @@ class RoleController extends Controller
      */
     public function delete(Request $request)
     {
-        // Get the religion
-        $religion = Religion::find($request->id);
+        // Get the test
+        $test = Test::find($request->id);
 
-        // Delete the religion
-        $religion->delete();
+        // Detach test companies
+        $test->companies()->detach();
+
+        // Detach test positions
+        $test->positions()->detach();
+
+        // Delete the test
+        $test->delete();
 
         // Redirect
-        return redirect()->route('admin.religion.index')->with(['message' => 'Berhasil menghapus data.']);
+        return redirect()->route('admin.test.index')->with(['message' => 'Berhasil menghapus data.']);
     }
 }

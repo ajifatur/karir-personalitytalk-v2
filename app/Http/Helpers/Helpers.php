@@ -6,17 +6,17 @@ use Illuminate\Support\Facades\Schema;
 // Get role
 if(!function_exists('role')){
     function role($role){
-        // Check table role
-        if(Schema::hasTable('role')){
-            // If key is integer, get nama role
+        // Check table roles
+        if(Schema::hasTable('roles')){
+            // If the key is integer, get name
             if(is_int($key)){
-                $role = DB::table('role')->where('id_role','=',$key)->first();
-                return $role ? $role->nama_role : null;
+                $role = DB::table('roles')->where('id','=',$key)->first();
+                return $role ? $role->name : null;
             }
-            // If key is string, get ID role
+            // If the key is string, get ID role
             elseif(is_string($key)){
-                $role = DB::table('role')->where('key_role','=',$key)->first();
-                return $role ? $role->id_role : null;
+                $role = DB::table('roles')->where('code','=',$key)->first();
+                return $role ? $role->id : null;
             }
             else{
                 return null;

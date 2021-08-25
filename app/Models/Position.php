@@ -49,4 +49,12 @@ class Position extends Model
     {
         return $this->belongsToMany(Test::class, 'position_test', 'position_id', 'test_id');
     }
+
+    /**
+     * The skills that belong to the position.
+     */
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'position_skill', 'position_id', 'skill_id');
+    }
 }

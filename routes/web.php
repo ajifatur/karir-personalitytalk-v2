@@ -101,6 +101,15 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::post('/admin/vacancy/update', 'VacancyController@update')->name('admin.vacancy.update');
 	Route::post('/admin/vacancy/delete', 'VacancyController@delete')->name('admin.vacancy.delete');
 
+	// Employee
+	Route::get('/admin/employee', 'EmployeeController@index')->name('admin.employee.index');
+	Route::get('/admin/employee/create', 'EmployeeController@create')->name('admin.employee.create');
+	Route::post('/admin/employee/store', 'EmployeeController@store')->name('admin.employee.store');
+	Route::get('/admin/employee/detail/{id}', 'EmployeeController@detail')->name('admin.employee.detail');
+	Route::get('/admin/employee/edit/{id}', 'EmployeeController@edit')->name('admin.employee.edit');
+	Route::post('/admin/employee/update', 'EmployeeController@update')->name('admin.employee.update');
+	Route::post('/admin/employee/delete', 'EmployeeController@delete')->name('admin.employee.delete');
+
 	// Role
 	Route::get('/admin/role', 'RoleController@index')->name('admin.role.index');
 	Route::get('/admin/role/create', 'RoleController@create')->name('admin.role.create');

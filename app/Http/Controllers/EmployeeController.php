@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Role;
+use App\Models\Employee;
 
-class RoleController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        // Get roles
-        $roles = Role::all();
+        // Get employees
+        $employees = Employee::all();
         
         // View
-        return view('admin/role/index', [
-            'roles' => $roles
+        return view('admin/employee/index', [
+            'employees' => $employees
         ]);
     }
 

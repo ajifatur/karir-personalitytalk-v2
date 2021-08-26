@@ -95,11 +95,11 @@
         <span>HRD</span></a>
     </li>
     @endif
-    <li class="nav-item {{ strpos(Request::url(), '/admin/karyawan') ? 'active' : '' }}">
-        <a class="nav-link" href="/admin/karyawan">
-        <i class="fas fa-fw fa-user-cog"></i>
-        <span>Karyawan</span></a>
-    </li>
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.employee.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.employee.index') }}">
+		<i class="fas fa-fw fa-cog"></i>
+		<span>{{ __('employee.name') }}</span></a>
+	</li>
     <li class="nav-item {{ strpos(Request::url(), '/admin/pelamar') ? 'active' : '' }}">
         <a class="nav-link" href="/admin/pelamar">
         <i class="fas fa-fw fa-user-tie"></i>

@@ -18,6 +18,9 @@ return [
     'add' => 'Tambah',
     'edit' => 'Edit',
     'delete' => 'Hapus',
+
     'yes' => 'Ya',
     'no' => 'Tidak',
+    'male' => 'Laki-Laki',
+    'female' => 'Perempuan',
 ];

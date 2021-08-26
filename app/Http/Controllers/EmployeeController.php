@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
+use App\Models\Company;
+use App\Models\User;
 
 class EmployeeController extends Controller
 {
@@ -31,8 +33,13 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        // Get companies
+        $companies = Company::all();
+
         // View
-        return view('admin/role/create');
+        return view('admin/employee/create', [
+            'companies' => $companies
+        ]);
     }
 
     /**
@@ -46,9 +53,8 @@ class EmployeeController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required|alpha_dash|unique:roles',
-            'has_access' => 'required',
-            'has_position' => 'required',
+            'birthdate' => 'required',
+            'gender' => 'required',
         ]);
         
         // Check errors

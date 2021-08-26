@@ -69,7 +69,7 @@
                 <h6 class="collapse-header">Hasil Tes:</h6>
                 <a class="collapse-item {{ strpos(Request::url(), '/admin/hasil/karyawan') ? 'active' : '' }}" href="/admin/hasil/karyawan">Karyawan</a>
                 <a class="collapse-item {{ strpos(Request::url(), '/admin/hasil/pelamar') ? 'active' : '' }}" href="/admin/hasil/pelamar">Pelamar</a>
-                @if(Auth::user()->role == role_admin())
+                @if(Auth::user()->role->id == role('admin'))
                 <a class="collapse-item {{ strpos(Request::url(), '/admin/hasil/magang') ? 'active' : '' }}" href="/admin/hasil/magang">Magang</a>
                 @endif
             </div>
@@ -83,7 +83,7 @@
     <div class="sidebar-heading">User</div>
 
     <!-- Nav Item -->
-    @if(Auth::user()->role == role_admin())
+    @if(Auth::user()->role->id == role('admin'))
     <li class="nav-item {{ strpos(Request::url(), '/admin/list') ? 'active' : '' }}">
         <a class="nav-link" href="/admin/list">
         <i class="fas fa-fw fa-user-secret"></i>
@@ -97,7 +97,7 @@
     @endif
 	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.employee.index'))) ? 'active' : '' }}">
 		<a class="nav-link" href="{{ route('admin.employee.index') }}">
-		<i class="fas fa-fw fa-cog"></i>
+		<i class="fas fa-fw fa-user-cog"></i>
 		<span>{{ __('employee.name') }}</span></a>
 	</li>
     <li class="nav-item {{ strpos(Request::url(), '/admin/pelamar') ? 'active' : '' }}">
@@ -113,7 +113,7 @@
         </li>
     @endif
   
-    @if(Auth::user()->role == role_admin())
+    @if(Auth::user()->role->id == role('admin'))
 
     <!-- Divider -->
     <hr class="sidebar-divider">

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 
 // Get role
 if(!function_exists('role')){
-    function role($role){
+    function role($key){
         // Check table roles
         if(Schema::hasTable('roles')){
             // If the key is integer, get name
@@ -24,6 +24,20 @@ if(!function_exists('role')){
         }
         else{
             return null;
+        }
+    }
+}
+
+// Get gender
+if(!function_exists('gender')){
+    function gender($gender){
+        switch($gender){
+            case 'M':
+                return __('form.male');
+            case 'F':
+                return __('form.female');
+            default:
+                return '';
         }
     }
 }

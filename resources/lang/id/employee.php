@@ -15,6 +15,13 @@ return [
 
     'db_field' => [
         'id' => 'ID',
+        'name' => 'Nama',
+        'birthdate' => 'Tanggal Lahir',
+        'gender' => 'Jenis Kelamin',
+        'address' => 'Alamat',
+        'phone_number' => 'Nomor Telepon',
+        'company' => 'Perusahaan',
+        'position' => 'Jabatan',
         'created_at' => 'Waktu Dibuat',
         'updated_at' => 'Waktu Diubah',
     ],

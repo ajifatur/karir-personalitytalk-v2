@@ -27,6 +27,14 @@ class Role extends Model
     protected $fillable = ['name', 'code', 'has_access', 'has_position'];
 
     /**
+     * Get the users for the role.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    /**
      * Get the positions for the role.
      */
     public function positions()

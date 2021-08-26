@@ -59,7 +59,7 @@
 							</td>
                             <td>{{ $employee->user ? $employee->user->username : '' }}</td>
 							<td>
-								{{ $employee->position ? $employee->position->name : '' }}
+								{{ $employee->position ? $employee->position->name : '-' }}
 								<br>
 								<small class="text-muted">{{ $employee->office ? $employee->office->name : '' }}</small>
 							</td>

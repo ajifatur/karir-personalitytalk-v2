@@ -84,7 +84,7 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        $request->merge(['has_access' => 1]);
+        // $request->merge(['has_access' => 1]);
 
         return $this->guard()->attempt(
             $this->credentials($request), $request->filled('remember')

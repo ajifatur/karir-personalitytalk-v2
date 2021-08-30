@@ -18,10 +18,15 @@ return [
         'name' => 'Nama',
         'birthdate' => 'Tanggal Lahir',
         'gender' => 'Jenis Kelamin',
-        'address' => 'Alamat',
+        'email' => 'Email',
         'phone_number' => 'Nomor Telepon',
+        'address' => 'Alamat',
         'company' => 'Perusahaan',
         'position' => 'Jabatan',
+        'identity_number' => 'NIK',
+        'latest_education' => 'Pendidikan Terakhir',
+        'start_date' => 'Awal Bekerja',
+        'end_date' => 'Akhir Bekerja',
         'created_at' => 'Waktu Dibuat',
         'updated_at' => 'Waktu Diubah',
     ],
@@ -45,5 +50,9 @@ return [
     'table_action' => [
         'edit' => 'Edit',
         'delete' => 'Hapus',
+    ],
+
+    'form' => [
+        'end_date' => 'Kosongi saja apabila karyawan masih aktif bekerja.',
     ],
 ];

@@ -18,7 +18,6 @@
 		<div class="card-body">
 			<form method="post" action="{{ route('admin.employee.store') }}" enctype="multipart/form-data">
 				{{ csrf_field() }}
-                <h5>Identitas</h5>
 				<div class="form-group row">
 					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.name') }}: <span class="text-danger">*</span></label>
 					<div class="col-lg-10 col-md-9">
@@ -59,11 +58,11 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.address') }}:</label>
+					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.email') }}: <span class="text-danger">*</span></label>
 					<div class="col-lg-10 col-md-9">
-						<textarea name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" rows="3">{{ old('address') }}</textarea>
-						@if($errors->has('address'))
-						<small class="text-danger">{{ ucfirst($errors->first('address')) }}</small>
+						<input name="email" type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}">
+						@if($errors->has('email'))
+						<small class="text-danger">{{ ucfirst($errors->first('email')) }}</small>
 						@endif
 					</div>
 				</div>
@@ -73,6 +72,15 @@
 						<input name="phone_number" type="text" class="form-control {{ $errors->has('phone_number') ? 'is-invalid' : '' }}" value="{{ old('phone_number') }}">
 						@if($errors->has('phone_number'))
 						<small class="text-danger">{{ ucfirst($errors->first('phone_number')) }}</small>
+						@endif
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.address') }}:</label>
+					<div class="col-lg-10 col-md-9">
+						<textarea name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" rows="3">{{ old('address') }}</textarea>
+						@if($errors->has('address'))
+						<small class="text-danger">{{ ucfirst($errors->first('address')) }}</small>
 						@endif
 					</div>
 				</div>
@@ -95,6 +103,53 @@
                     </div>
                 </div>
 				<div class="form-group row">
+					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.identity_number') }}:</label>
+					<div class="col-lg-10 col-md-9">
+						<input name="identity_number" type="text" class="form-control {{ $errors->has('identity_number') ? 'is-invalid' : '' }}" value="{{ old('identity_number') }}">
+						@if($errors->has('identity_number'))
+						<small class="text-danger">{{ ucfirst($errors->first('identity_number')) }}</small>
+						@endif
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.latest_education') }}:</label>
+					<div class="col-lg-10 col-md-9">
+						<textarea name="latest_education" class="form-control {{ $errors->has('latest_education') ? 'is-invalid' : '' }}" rows="3">{{ old('latest_education') }}</textarea>
+						@if($errors->has('latest_education'))
+						<small class="text-danger">{{ ucfirst($errors->first('latest_education')) }}</small>
+						@endif
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.start_date') }}:</label>
+					<div class="col-lg-10 col-md-9">
+						<div class="input-group">
+							<input name="start_date" type="text" class="form-control {{ $errors->has('start_date') ? 'is-invalid' : '' }}" value="{{ old('start_date') }}" placeholder="dd/mm/yyyy" autocomplete="off">
+							<div class="input-group-append">
+								<span class="input-group-text {{ $errors->has('start_date') ? 'border-outline-danger' : 'border-outline-primary' }}"><i class="fa fa-calendar"></i></span>
+							</div>
+						</div>
+						@if($errors->has('start_date'))
+						<small class="text-danger">{{ ucfirst($errors->first('start_date')) }}</small>
+						@endif
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2 col-md-3 col-form-label">{{ __('employee.db_field.end_date') }}:</label>
+					<div class="col-lg-10 col-md-9">
+						<div class="input-group">
+							<input name="end_date" type="text" class="form-control {{ $errors->has('end_date') ? 'is-invalid' : '' }}" value="{{ old('end_date') }}" placeholder="dd/mm/yyyy" autocomplete="off">
+							<div class="input-group-append">
+								<span class="input-group-text {{ $errors->has('end_date') ? 'border-outline-danger' : 'border-outline-primary' }}"><i class="fa fa-calendar"></i></span>
+							</div>
+						</div>
+						<div class="small text-muted mt-1">{{ __('employee.form.end_date') }}</div>
+						@if($errors->has('end_date'))
+						<small class="text-danger">{{ ucfirst($errors->first('end_date')) }}</small>
+						@endif
+					</div>
+				</div>
+				<div class="form-group row">
 					<div class="col-lg-2 col-md-3"></div>
 					<div class="col-lg-10 col-md-9">
 						<button type="submit" class="btn btn-primary"><i class="fa fa-save mr-2"></i>{{ __('form.submit') }}</button>
@@ -113,7 +168,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// Datepicker
-		$('input[name=birthdate]').datepicker({
+		$('input[name=birthdate], input[name=start_date], input[name=end_date]').datepicker({
 			format: 'dd/mm/yyyy',
 			autoclose: true,
 			todayHighlight: true

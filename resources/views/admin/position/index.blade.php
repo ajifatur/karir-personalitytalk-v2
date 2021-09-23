@@ -15,7 +15,7 @@
 
 	<!-- Content -->
 	<div class="card shadow mb-4">
-		<div class="card-header py-3 d-flex justify-content-between align-items-center">
+		<div class="card-header py-3 d-md-flex justify-content-between align-items-center">
 			<div class="text-center">
 				<a class="btn btn-sm btn-primary" href="{{ route('admin.position.create') }}">
 					<i class="fas fa-plus fa-sm fa-fw text-gray-400"></i> {{ __('position.title.create') }}

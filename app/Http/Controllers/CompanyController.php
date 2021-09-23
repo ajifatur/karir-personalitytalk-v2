@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
+use App\Models\Office;
 use App\Models\Test;
 
 class CompanyController extends Controller
@@ -74,6 +75,15 @@ class CompanyController extends Controller
             if($request->get('tests') != null){
                 $company->tests()->attach($request->get('tests'));
             }
+
+            // Save the office
+            $office = new Office;
+            $office->company_id = $company->id;
+            $office->name = 'Head Office';
+            $office->address = '';
+            $office->phone_number = '';
+            $office->founded_on = $request->founded_on != '' ? generate_date_format($request->founded_on, 'y-m-d') : null;
+            $office->save();
 
             // Redirect
             return redirect()->route('admin.company.index')->with(['message' => 'Berhasil menambah data.']);

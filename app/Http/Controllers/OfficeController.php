@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Office;
@@ -12,16 +13,33 @@ class OfficeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Get offices
-        $offices = Office::all();
+        if(Auth::user()->role->id == role('admin')) {
+            // Get the company by query
+            $company = Company::find($request->query('company'));
+
+            // Get offices by company
+            $offices = $company ? Office::where('company_id','=',$company->id)->get() : Office::all();
+        }
+        else {
+            // Get the user company
+            $user_company = Company::where('user_id','=',Auth::user()->id)->first();
+
+            // Get offices by company
+            $offices = Office::where('company_id','=',$user_company->id)->get();
+        }
+
+        // Get companies
+        $companies = Company::all();
         
         // View
         return view('admin/office/index', [
-            'offices' => $offices
+            'offices' => $offices,
+            'companies' => $companies,
         ]);
     }
 

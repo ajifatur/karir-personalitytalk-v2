@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check() && ($request->user()->role == role_admin() || $request->user()->role == role_hrd()) && $request->path() == 'login') {
+            if (Auth::guard($guard)->check() && ($request->user()->role->id == role('admin') || $request->user()->role->id == role('hrd')) && $request->path() == 'login') {
                 return redirect('/admin');
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -14,16 +15,33 @@ class VacancyController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Get vacancies
-        $vacancies = Vacancy::all();
+        if(Auth::user()->role->id == role('admin')) {
+            // Get the company by query
+            $company = Company::find($request->query('company'));
+
+            // Get vacancies by company
+            $vacancies = $company ? Vacancy::where('company_id','=',$company->id)->get() : Vacancy::all();
+        }
+        else {
+            // Get the user company
+            $user_company = Company::where('user_id','=',Auth::user()->id)->first();
+
+            // Get vacancies by company
+            $vacancies = Vacancy::where('company_id','=',$user_company->id)->get();
+        }
+
+        // Get companies
+        $companies = Company::all();
         
         // View
         return view('admin/vacancy/index', [
-            'vacancies' => $vacancies
+            'vacancies' => $vacancies,
+            'companies' => $companies,
         ]);
     }
 

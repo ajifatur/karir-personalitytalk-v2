@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Position;
@@ -15,16 +16,33 @@ class PositionController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Get positions
-        $positions = Position::all();
+        if(Auth::user()->role->id == role('admin')) {
+            // Get the company by query
+            $company = Company::find($request->query('company'));
+
+            // Get positions by company
+            $positions = $company ? Position::where('company_id','=',$company->id)->get() : Position::all();
+        }
+        else {
+            // Get the user company
+            $user_company = Company::where('user_id','=',Auth::user()->id)->first();
+
+            // Get positions by company
+            $positions = Position::where('company_id','=',$user_company->id)->get();
+        }
+
+        // Get companies
+        $companies = Company::all();
         
         // View
         return view('admin/position/index', [
-            'positions' => $positions
+            'positions' => $positions,
+            'companies' => $companies,
         ]);
     }
 

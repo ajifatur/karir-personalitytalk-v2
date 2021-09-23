@@ -112,7 +112,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // Update last visit
-        $account = User::find($user->id_user);
+        $account = User::find($user->id);
         $account->last_visit = date('Y-m-d H:i:s');
         $account->save();
 

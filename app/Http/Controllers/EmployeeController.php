@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -16,16 +17,33 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Get employees
-        $employees = Employee::all();
+        if(Auth::user()->role->id == role('admin')) {
+            // Get the company by query
+            $company = Company::find($request->query('company'));
+
+            // Get employees by company
+            $employees = $company ? Employee::where('company_id','=',$company->id)->get() : Employee::all();
+        }
+        else {
+            // Get the user company
+            $user_company = Company::where('user_id','=',Auth::user()->id)->first();
+
+            // Get employees by company
+            $employees = Employee::where('company_id','=',$user_company->id)->get();
+        }
+
+        // Get companies
+        $companies = Company::all();
         
         // View
         return view('admin/employee/index', [
-            'employees' => $employees
+            'employees' => $employees,
+            'companies' => $companies,
         ]);
     }
 
@@ -135,12 +153,12 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        // Get the role
-        $role = Role::findOrFail($id);
+        // Get the employee
+        $employee = Employee::findOrFail($id);
 
         // View
-        return view('admin/role/edit', [
-            'role' => $role
+        return view('admin/employee/edit', [
+            'employee' => $employee
         ]);
     }
 
@@ -155,9 +173,12 @@ class EmployeeController extends Controller
         // Validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'code' => 'required|alpha_dash',
-            'has_access' => 'required',
-            'has_position' => 'required',
+            'birthdate' => 'required',
+            'gender' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required|numeric',
+            'position' => 'required',
+            'office' => 'required',
         ]);
         
         // Check errors
@@ -166,16 +187,30 @@ class EmployeeController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Update the role
-            $role = Role::find($request->id);
-            $role->name = $request->name;
-            $role->code = $request->code;
-            $role->has_access = $request->has_access;
-            $role->has_position = $request->has_position;
-            $role->save();
+            // Update the employee
+            $employee = Employee::find($request->id);
+            $employee->office_id = $request->office;
+            $employee->position_id = $request->position;
+            $employee->identity_number = $request->identity_number;
+            $employee->latest_education = $request->latest_education;
+            $employee->start_date = $request->start_date != '' ? generate_date_format($request->start_date, 'y-m-d') : null;
+            $employee->end_date = $request->end_date != '' ? generate_date_format($request->end_date, 'y-m-d') : null;
+            $employee->updated_at = date('Y-m-d H:i:s');
+            $employee->save();
+
+            // Update the user
+            $user = User::find($employee->id);
+            $user->name = $request->name;
+            $user->birthdate = $request->birthdate;
+            $user->gender = $request->gender;
+            $user->address = $request->address;
+            $user->phone_number = $request->phone_number;
+            $user->email = $request->email;
+            $user->updated_at = date('Y-m-d H:i:s');
+            $user->save();
 
             // Redirect
-            return redirect()->route('admin.role.index')->with(['message' => 'Berhasil mengupdate data.']);
+            return redirect()->route('admin.employee.index')->with(['message' => 'Berhasil mengupdate data.']);
         }
     }
 
@@ -187,13 +222,19 @@ class EmployeeController extends Controller
      */
     public function delete(Request $request)
     {
-        // Get the role
-        $role = Role::find($request->id);
+        // Get the employee
+        $employee = Employee::find($request->id);
+        
+        // Get the user
+        $user = User::find($employee->user_id);
 
-        // Delete the role
-        $role->delete();
+        // Delete the employee
+        $employee->delete();
+
+        // Delete the user
+        $user->delete();
 
         // Redirect
-        return redirect()->route('admin.role.index')->with(['message' => 'Berhasil menghapus data.']);
+        return redirect()->route('admin.employee.index')->with(['message' => 'Berhasil menghapus data.']);
     }
 }

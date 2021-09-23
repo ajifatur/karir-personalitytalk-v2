@@ -16,11 +16,21 @@
 	<!-- Content -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex justify-content-between align-items-center">
-			<div>
+			<div class="text-center">
 				<a class="btn btn-sm btn-primary" href="{{ route('admin.vacancy.create') }}">
 					<i class="fas fa-plus fa-sm fa-fw text-gray-400"></i> {{ __('vacancy.title.create') }}
 				</a>
 			</div>
+			@if(Auth::user()->role->id == role('admin'))
+			<div class="mt-2 mt-md-0">
+                <select id="company" class="form-control form-control-sm">
+                    <option value="0">{{ __('vacancy.table_action.all') }}</option>
+					@foreach($companies as $company)
+					<option value="{{ $company->id }}" {{ isset($_GET['company']) && $company->id == $_GET['company'] ? 'selected' : ''  }}>{{ $company->name }}</option>
+					@endforeach
+				</select>
+            </div>
+			@endif
 		</div>
 		<div class="card-body">
 			@if(Session::get('message') != null)
@@ -102,6 +112,15 @@
 		// Button Not Allowed
 		$(document).on("click", ".not-allowed", function(e){
 			e.preventDefault();
+		});
+
+		// Select company
+		$(document).on("change", "select#company", function() {
+			var company = $(this).val();
+			if(company > 0)
+				window.location.href = "{{ route('admin.vacancy.index') }}" + "?company=" + company;
+			else
+				window.location.href = "{{ route('admin.vacancy.index') }}";
 		});
 	});
 </script>

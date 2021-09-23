@@ -39,6 +39,7 @@ return [
     ],
 
     'table_action' => [
+        'all' => 'Semua Perusahaan',
         'edit' => 'Edit',
         'delete' => 'Hapus',
     ],

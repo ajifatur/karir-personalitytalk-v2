@@ -63,6 +63,8 @@ class RoleController extends Controller
             $role->code = $request->code;
             $role->has_access = $request->has_access;
             $role->has_position = $request->has_position;
+            $role->created_at = date('Y-m-d H:i:s');
+            $role->updated_at = date('Y-m-d H:i:s');
             $role->save();
 
             // Redirect
@@ -126,6 +128,7 @@ class RoleController extends Controller
             $role->code = $request->code;
             $role->has_access = $request->has_access;
             $role->has_position = $request->has_position;
+            $role->updated_at = date('Y-m-d H:i:s');
             $role->save();
 
             // Redirect

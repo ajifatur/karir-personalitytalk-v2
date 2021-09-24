@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Religion extends Model
+class Relationship extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Religion extends Model
      *
      * @var string
      */
-    protected $table = 'religions';
+    protected $table = 'relationships';
 
     /**
      * Fill the model with an array of attributes.

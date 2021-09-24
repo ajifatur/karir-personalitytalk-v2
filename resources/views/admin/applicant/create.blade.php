@@ -1,6 +1,6 @@
 @extends('template/admin/main')
 
-@section('title', __('employee.title.create'))
+@section('title', __('applicant.title.create'))
 
 @section('content')
 
@@ -8,15 +8,15 @@
 	<div class="d-none">
 		<ol class="breadcrumb" id="breadcrumb">
 			<li class="breadcrumb-item"><i class="fas fa-tachometer-alt"></i></li>
-			<li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">{{ __('employee.name') }}</a></li>
-			<li class="breadcrumb-item active" aria-current="page">{{ __('employee.title.create') }}</li>
+			<li class="breadcrumb-item"><a href="{{ route('admin.applicant.index') }}">{{ __('applicant.name') }}</a></li>
+			<li class="breadcrumb-item active" aria-current="page">{{ __('applicant.title.create') }}</li>
 		</ol>
 	</div>
 
 	<!-- Content -->
 	<div class="card shadow mb-4">
 		<div class="card-body">
-			<form method="post" action="{{ route('admin.employee.store') }}" enctype="multipart/form-data">
+			<form method="post" action="{{ route('admin.applicant.store') }}" enctype="multipart/form-data">
 				{{ csrf_field() }}
 
 				<!-- Identity -->
@@ -26,7 +26,7 @@
 					</div>
 					<div class="col-lg-10 col-md-9">
 						<div class="form-group">
-							<label>{{ __('employee.db_field.name') }}: <span class="text-danger">*</span></label>
+							<label>{{ __('applicant.db_field.name') }}: <span class="text-danger">*</span></label>
 							<input name="name" type="text" class="form-control form-control-sm {{ $errors->has('name') ? 'is-invalid' : '' }}" value="{{ old('name') }}">
 							@if($errors->has('name'))
 							<small class="text-danger">{{ ucfirst($errors->first('name')) }}</small>
@@ -34,7 +34,7 @@
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.birthdate') }}: <span class="text-danger">*</span></label>
+								<label>{{ __('applicant.db_field.birthdate') }}: <span class="text-danger">*</span></label>
 								<div class="input-group">
 									<input name="birthdate" type="text" class="form-control form-control-sm {{ $errors->has('birthdate') ? 'is-invalid' : '' }}" value="{{ old('birthdate') }}" placeholder="dd/mm/yyyy" autocomplete="off">
 									<div class="input-group-append">
@@ -46,7 +46,7 @@
 								@endif
 							</div>
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.gender') }}: <span class="text-danger">*</span></label>
+								<label>{{ __('applicant.db_field.gender') }}: <span class="text-danger">*</span></label>
 								<div class="form-check">
 									<input class="form-check-input" type="radio" name="gender" value="M" id="gender-M" {{ old('gender') == 'M' ? 'checked' : '' }}>
 									<label class="form-check-label" for="gender-M">{{ gender('M') }}</label>
@@ -62,14 +62,14 @@
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.email') }}: <span class="text-danger">*</span></label>
+								<label>{{ __('applicant.db_field.email') }}: <span class="text-danger">*</span></label>
 								<input name="email" type="email" class="form-control form-control-sm {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}">
 								@if($errors->has('email'))
 								<small class="text-danger">{{ ucfirst($errors->first('email')) }}</small>
 								@endif
 							</div>
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.phone_number') }}: <span class="text-danger">*</span></label>
+								<label>{{ __('applicant.db_field.phone_number') }}: <span class="text-danger">*</span></label>
 								<input name="phone_number" type="text" class="form-control form-control-sm {{ $errors->has('phone_number') ? 'is-invalid' : '' }}" value="{{ old('phone_number') }}">
 								@if($errors->has('phone_number'))
 								<small class="text-danger">{{ ucfirst($errors->first('phone_number')) }}</small>
@@ -78,7 +78,7 @@
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.identity_number') }}:</label>
+								<label>{{ __('applicant.db_field.identity_number') }}:</label>
 								<input name="identity_number" type="text" class="form-control form-control-sm {{ $errors->has('identity_number') ? 'is-invalid' : '' }}" value="{{ old('identity_number') }}">
 								@if($errors->has('identity_number'))
 								<small class="text-danger">{{ ucfirst($errors->first('identity_number')) }}</small>
@@ -87,14 +87,40 @@
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.address') }}:</label>
+								<label>{{ __('applicant.db_field.religion') }}: <span class="text-danger">*</span></label>
+								<select name="religion" class="form-control form-control-sm {{ $errors->has('religion') ? 'is-invalid' : '' }}">
+									<option value="" disabled selected>{{ __('form.choose-') }}</option>
+									@foreach($religions as $religion)
+										<option value="{{ $religion->id }}" {{ $religion->id == old('religion') ? 'selected' : '' }}>{{ $religion->name }}</option>
+									@endforeach
+								</select>
+								@if($errors->has('religion'))
+								<small class="text-danger">{{ ucfirst($errors->first('religion')) }}</small>
+								@endif
+							</div>
+							<div class="form-group col-md-6">
+								<label>{{ __('applicant.db_field.relationship') }}: <span class="text-danger">*</span></label>
+								<select name="relationship" class="form-control form-control-sm {{ $errors->has('relationship') ? 'is-invalid' : '' }}">
+									<option value="" disabled selected>{{ __('form.choose-') }}</option>
+									@foreach($relationships as $relationship)
+										<option value="{{ $relationship->id }}" {{ $relationship->id == old('relationship') ? 'selected' : '' }}>{{ $relationship->name }}</option>
+									@endforeach
+								</select>
+								@if($errors->has('relationship'))
+								<small class="text-danger">{{ ucfirst($errors->first('relationship')) }}</small>
+								@endif
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>{{ __('applicant.db_field.address') }}:</label>
 								<textarea name="address" class="form-control form-control-sm {{ $errors->has('address') ? 'is-invalid' : '' }}" rows="3">{{ old('address') }}</textarea>
 								@if($errors->has('address'))
 								<small class="text-danger">{{ ucfirst($errors->first('address')) }}</small>
 								@endif
 							</div>
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.latest_education') }}:</label>
+								<label>{{ __('applicant.db_field.latest_education') }}:</label>
 								<textarea name="latest_education" class="form-control form-control-sm {{ $errors->has('latest_education') ? 'is-invalid' : '' }}" rows="3">{{ old('latest_education') }}</textarea>
 								@if($errors->has('latest_education'))
 								<small class="text-danger">{{ ucfirst($errors->first('latest_education')) }}</small>
@@ -113,48 +139,30 @@
 					<div class="col-lg-10 col-md-9">
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.position') }}: <span class="text-danger">*</span></label>
-								<select name="position" class="form-control form-control-sm {{ $errors->has('position') ? 'is-invalid' : '' }}">
+								<label>{{ __('applicant.db_field.vacancy') }}: <span class="text-danger">*</span></label>
+								<select name="vacancy" class="form-control form-control-sm {{ $errors->has('vacancy') ? 'is-invalid' : '' }}">
 									<option value="" disabled selected>{{ __('form.choose-') }}</option>
 									@foreach($companies as $company)
 										<optgroup label="{{ $company->name }} ({{ $company->user->name }})">
-											@foreach($company->positions()->orderBy('name')->get() as $position)
-												<option value="{{ $position->id }}" {{ $position->id == old('position') ? 'selected' : '' }}>{{ $position->name }}</option>
+											@foreach($company->vacancies()->where('end_date','=','0000-00-00')->orderBy('id')->get() as $vacancy)
+												@if($vacancy->position)
+													<option value="{{ $vacancy->id }}" {{ $vacancy->id == old('vacancy') ? 'selected' : '' }}>{{ $vacancy->position->name }}</option>
+												@endif
 											@endforeach
 										</optgroup>
 									@endforeach
 								</select>
-								@if($errors->has('position'))
-								<small class="text-danger">{{ ucfirst($errors->first('position')) }}</small>
+								@if($errors->has('vacancy'))
+								<small class="text-danger">{{ ucfirst($errors->first('vacancy')) }}</small>
 								@endif
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.start_date') }}:</label>
-								<div class="input-group">
-									<input name="start_date" type="text" class="form-control form-control-sm {{ $errors->has('start_date') ? 'is-invalid' : '' }}" value="{{ old('start_date') }}" placeholder="dd/mm/yyyy" autocomplete="off">
-									<div class="input-group-append">
-										<span class="input-group-text {{ $errors->has('start_date') ? 'border-outline-danger' : 'border-outline-primary' }}"><i class="fa fa-calendar"></i></span>
-									</div>
-								</div>
-								@if($errors->has('start_date'))
-								<small class="text-danger">{{ ucfirst($errors->first('start_date')) }}</small>
-								@endif
-							</div>
-							<div class="form-group col-md-6">
-								<label>{{ __('employee.db_field.end_date') }}:</label>
-								<div class="input-group">
-									<input name="end_date" type="text" class="form-control form-control-sm {{ $errors->has('end_date') ? 'is-invalid' : '' }}" value="{{ old('end_date') }}" placeholder="dd/mm/yyyy" autocomplete="off">
-									<div class="input-group-append">
-										<span class="input-group-text {{ $errors->has('end_date') ? 'border-outline-danger' : 'border-outline-primary' }}"><i class="fa fa-calendar"></i></span>
-									</div>
-								</div>
-								<div class="small text-muted mt-1">{{ __('employee.form.end_date') }}</div>
-								@if($errors->has('end_date'))
-								<small class="text-danger">{{ ucfirst($errors->first('end_date')) }}</small>
-								@endif
-							</div>
+						<div class="form-group">
+							<label>{{ __('applicant.db_field.job_experiences') }}:</label>
+							<textarea name="job_experiences" class="form-control form-control-sm {{ $errors->has('job_experiences') ? 'is-invalid' : '' }}" rows="3">{{ old('job_experiences') }}</textarea>
+							@if($errors->has('job_experiences'))
+							<small class="text-danger">{{ ucfirst($errors->first('job_experiences')) }}</small>
+							@endif
 						</div>
 					</div>
 				</div>
@@ -162,7 +170,7 @@
 
 				<!-- Buttons -->
 				<div class="float-right">
-					<a href="{{ route('admin.employee.index') }}" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left mr-2"></i>{{ __('form.back') }}</a>
+					<a href="{{ route('admin.applicant.index') }}" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left mr-2"></i>{{ __('form.back') }}</a>
 					<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save mr-2"></i>{{ __('form.submit') }}</button>
 				</div>
 			</form>
@@ -177,7 +185,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// Datepicker
-		$('input[name=birthdate], input[name=start_date], input[name=end_date]').datepicker({
+		$('input[name=birthdate]').datepicker({
 			format: 'dd/mm/yyyy',
 			autoclose: true,
 			todayHighlight: true

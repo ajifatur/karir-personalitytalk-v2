@@ -110,6 +110,15 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::post('/admin/employee/update', 'EmployeeController@update')->name('admin.employee.update');
 	Route::post('/admin/employee/delete', 'EmployeeController@delete')->name('admin.employee.delete');
 
+	// Applicant
+	Route::get('/admin/applicant', 'ApplicantController@index')->name('admin.applicant.index');
+	Route::get('/admin/applicant/create', 'ApplicantController@create')->name('admin.applicant.create');
+	Route::post('/admin/applicant/store', 'ApplicantController@store')->name('admin.applicant.store');
+	Route::get('/admin/applicant/detail/{id}', 'ApplicantController@detail')->name('admin.applicant.detail');
+	Route::get('/admin/applicant/edit/{id}', 'ApplicantController@edit')->name('admin.applicant.edit');
+	Route::post('/admin/applicant/update', 'ApplicantController@update')->name('admin.applicant.update');
+	Route::post('/admin/applicant/delete', 'ApplicantController@delete')->name('admin.applicant.delete');
+
 	// Role
 	Route::get('/admin/role', 'RoleController@index')->name('admin.role.index');
 	Route::get('/admin/role/create', 'RoleController@create')->name('admin.role.create');

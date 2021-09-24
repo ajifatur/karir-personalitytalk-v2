@@ -6,13 +6,16 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Employee;
+use App\Models\Applicant;
 use App\Models\Company;
 use App\Models\Position;
+use App\Models\Relationship;
+use App\Models\Religion;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Vacancy;
 
-class EmployeeController extends Controller
+class ApplicantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,23 +29,23 @@ class EmployeeController extends Controller
             // Get the company by query
             $company = Company::find($request->query('company'));
 
-            // Get employees by company
-            $employees = $company ? Employee::where('company_id','=',$company->id)->orderBy('updated_at','desc')->get() : Employee::orderBy('updated_at','desc')->get();
+            // Get applicants by company
+            $applicants = $company ? Applicant::where('company_id','=',$company->id)->orderBy('updated_at','desc')->get() : Applicant::orderBy('updated_at','desc')->get();
         }
         else {
             // Get the user company
             $user_company = Company::where('user_id','=',Auth::user()->id)->first();
 
-            // Get employees by company
-            $employees = Employee::where('company_id','=',$user_company->id)->orderBy('updated_at','desc')->get();
+            // Get applicants by company
+            $applicants = Applicant::where('company_id','=',$user_company->id)->orderBy('updated_at','desc')->get();
         }
 
         // Get companies
         $companies = Company::all();
         
         // View
-        return view('admin/employee/index', [
-            'employees' => $employees,
+        return view('admin/applicant/index', [
+            'applicants' => $applicants,
             'companies' => $companies,
         ]);
     }
@@ -57,9 +60,17 @@ class EmployeeController extends Controller
         // Get companies
         $companies = Company::all();
 
+        // Get religions
+        $religions = Religion::all();
+
+        // Get relationship
+        $relationships = Relationship::all();
+
         // View
-        return view('admin/employee/create', [
-            'companies' => $companies
+        return view('admin/applicant/create', [
+            'companies' => $companies,
+            'religions' => $religions,
+            'relationships' => $relationships,
         ]);
     }
 
@@ -79,7 +90,9 @@ class EmployeeController extends Controller
             'email' => 'required|email',
             'phone_number' => 'required|numeric',
             'identity_number' => $request->identity_number != '' ? 'numeric' : '',
-            'position' => 'required',
+            'vacancy' => 'required',
+            'religion' => 'required',
+            'relationship' => 'required',
         ]);
         
         // Check errors
@@ -88,18 +101,17 @@ class EmployeeController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Get the position
-            $position = Position::find($request->position);
+            // Get the vacancy
+            $vacancy = Vacancy::find($request->vacancy);
 
             // Generate username
-            $company = Company::find($position->company->id);
             $role_has_no_access = Role::where('has_access','=',0)->pluck('id')->toArray();
-            $latest_user = User::whereIn('role_id',$role_has_no_access)->where('username','like',$position->company->code.'%')->latest('username')->first();
-            $generated_username = $latest_user ? generate_username($latest_user->username, $position->company->code) : generate_username(null, $position->company->code);
+            $latest_user = User::whereIn('role_id',$role_has_no_access)->where('username','like',$vacancy->company->code.'%')->latest('username')->first();
+            $generated_username = $latest_user ? generate_username($latest_user->username, $vacancy->company->code) : generate_username(null, $vacancy->company->code);
 
             // Save the user
             $user = new User;
-            $user->role_id = $position ? $position->role_id : 0;
+            $user->role_id = $vacancy ? $vacancy->position->role_id : 0;
             $user->name = $request->name;
             $user->birthdate = generate_date_format($request->birthdate, 'y-m-d');
             $user->gender = $request->gender;
@@ -116,22 +128,23 @@ class EmployeeController extends Controller
             $user->updated_at = date('Y-m-d H:i:s');
             $user->save();
 
-            // Save the employee
-            $employee = new Employee;
-            $employee->user_id = $user->id;
-            $employee->company_id = $position->company->id;
-            $employee->office_id = 0;
-            $employee->position_id = $request->position;
-            $employee->identity_number = $request->identity_number;
-            $employee->latest_education = $request->latest_education;
-            $employee->start_date = $request->start_date != '' ? generate_date_format($request->start_date, 'y-m-d') : null;
-            $employee->end_date = $request->end_date != '' ? generate_date_format($request->end_date, 'y-m-d') : null;
-            $employee->created_at = date('Y-m-d H:i:s');
-            $employee->updated_at = date('Y-m-d H:i:s');
-            $employee->save();
+            // Save the applicant
+            $applicant = new Applicant;
+            $applicant->user_id = $user->id;
+            $applicant->company_id = $vacancy ? $vacancy->company->id : 0;
+            $applicant->position_id = $vacancy ? $vacancy->position->id : 0;
+            $applicant->vacancy_id = $request->vacancy;
+            $applicant->religion_id = $request->religion;
+            $applicant->relationship_id = $request->relationship;
+            $applicant->identity_number = $request->identity_number;
+            $applicant->latest_education = $request->latest_education;
+            $applicant->job_experiences = $request->job_experiences;
+            $applicant->created_at = date('Y-m-d H:i:s');
+            $applicant->updated_at = date('Y-m-d H:i:s');
+            $applicant->save();
 
             // Redirect
-            return redirect()->route('admin.employee.index')->with(['message' => 'Berhasil menambah data.']);
+            return redirect()->route('admin.applicant.index')->with(['message' => 'Berhasil menambah data.']);
         }
     }
 
@@ -154,12 +167,20 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        // Get the employee
-        $employee = Employee::findOrFail($id);
+        // Get the applicant
+        $applicant = Applicant::findOrFail($id);
+
+        // Get religions
+        $religions = Religion::all();
+
+        // Get relationship
+        $relationships = Relationship::all();
 
         // View
-        return view('admin/employee/edit', [
-            'employee' => $employee
+        return view('admin/applicant/edit', [
+            'applicant' => $applicant,
+            'religions' => $religions,
+            'relationships' => $relationships,
         ]);
     }
 
@@ -179,8 +200,9 @@ class EmployeeController extends Controller
             'email' => 'required|email',
             'phone_number' => 'required|numeric',
             'identity_number' => $request->identity_number != '' ? 'numeric' : '',
-            'position' => 'required',
-            'office' => 'required',
+            'vacancy' => 'required',
+            'religion' => 'required',
+            'relationship' => 'required',
         ]);
         
         // Check errors
@@ -189,19 +211,23 @@ class EmployeeController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else{
-            // Update the employee
-            $employee = Employee::find($request->id);
-            $employee->office_id = $request->office;
-            $employee->position_id = $request->position;
-            $employee->identity_number = $request->identity_number;
-            $employee->latest_education = $request->latest_education;
-            $employee->start_date = $request->start_date != '' ? generate_date_format($request->start_date, 'y-m-d') : null;
-            $employee->end_date = $request->end_date != '' ? generate_date_format($request->end_date, 'y-m-d') : null;
-            $employee->updated_at = date('Y-m-d H:i:s');
-            $employee->save();
+            // Get the vacancy
+            $vacancy = Vacancy::find($request->vacancy);
+
+            // Update the applicant
+            $applicant = Applicant::find($request->id);
+            $applicant->position_id = $vacancy ? $vacancy->position->id : 0;
+            $applicant->vacancy_id = $request->vacancy;
+            $applicant->religion_id = $request->religion;
+            $applicant->relationship_id = $request->relationship;
+            $applicant->identity_number = $request->identity_number;
+            $applicant->latest_education = $request->latest_education;
+            $applicant->job_experiences = $request->job_experiences;
+            $applicant->updated_at = date('Y-m-d H:i:s');
+            $applicant->save();
 
             // Update the user
-            $user = User::find($employee->user_id);
+            $user = User::find($applicant->user_id);
             $user->name = $request->name;
             $user->birthdate = generate_date_format($request->birthdate, 'y-m-d');
             $user->gender = $request->gender;
@@ -212,7 +238,7 @@ class EmployeeController extends Controller
             $user->save();
 
             // Redirect
-            return redirect()->route('admin.employee.index')->with(['message' => 'Berhasil mengupdate data.']);
+            return redirect()->route('admin.applicant.index')->with(['message' => 'Berhasil mengupdate data.']);
         }
     }
 
@@ -224,19 +250,19 @@ class EmployeeController extends Controller
      */
     public function delete(Request $request)
     {
-        // Get the employee
-        $employee = Employee::find($request->id);
+        // Get the applicant
+        $applicant = Applicant::find($request->id);
         
         // Get the user
-        $user = User::find($employee->user_id);
+        $user = User::find($applicant->user_id);
 
-        // Delete the employee
-        $employee->delete();
+        // Delete the applicant
+        $applicant->delete();
 
         // Delete the user
         $user->delete();
 
         // Redirect
-        return redirect()->route('admin.employee.index')->with(['message' => 'Berhasil menghapus data.']);
+        return redirect()->route('admin.applicant.index')->with(['message' => 'Berhasil menghapus data.']);
     }
 }

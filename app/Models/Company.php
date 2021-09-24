@@ -51,6 +51,14 @@ class Company extends Model
     }
 
     /**
+     * Get the vacancies for the company.
+     */
+    public function vacancies()
+    {
+        return $this->hasMany(Vacancy::class);
+    }
+
+    /**
      * The tests that belong to the company.
      */
     public function tests()

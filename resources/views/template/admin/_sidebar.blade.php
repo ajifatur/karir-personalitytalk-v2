@@ -100,11 +100,11 @@
 		<i class="fas fa-fw fa-user-cog"></i>
 		<span>{{ __('employee.name') }}</span></a>
 	</li>
-    <li class="nav-item {{ strpos(Request::url(), '/admin/pelamar') ? 'active' : '' }}">
-        <a class="nav-link" href="/admin/pelamar">
-        <i class="fas fa-fw fa-user-tie"></i>
-        <span>Pelamar</span></a>
-    </li>
+	<li class="nav-item {{ is_int(strpos(Request::url(), route('admin.applicant.index'))) ? 'active' : '' }}">
+		<a class="nav-link" href="{{ route('admin.applicant.index') }}">
+		<i class="fas fa-fw fa-user-tie"></i>
+		<span>{{ __('applicant.name') }}</span></a>
+	</li>
     @if(Auth::user()->username == 'ajifatur')
         <li class="nav-item {{ strpos(Request::url(), '/admin/umum') ? 'active' : '' }}">
         <a class="nav-link" href="/admin/umum">

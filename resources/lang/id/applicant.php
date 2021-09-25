@@ -28,7 +28,7 @@ return [
         'religion' => 'Agama',
         'identity_number' => 'NIK',
         'latest_education' => 'Pendidikan Terakhir',
-        'job_experiences' => 'Pengalaman Bekerja',
+        'job_experiences' => 'Riwayat Pekerjaan',
         'relationship' => 'Status Hubungan',
         'created_at' => 'Waktu Dibuat',
         'updated_at' => 'Waktu Diubah',

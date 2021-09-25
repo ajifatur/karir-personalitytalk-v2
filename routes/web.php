@@ -25,6 +25,9 @@ Route::group(['middleware' => ['guest']], function(){
 	Route::get('/login', 'Auth\LoginController@showLoginForm');
 	Route::post('/login', 'Auth\LoginController@login');
 
+	// Register for Applicant
+	Route::get('/vacancy/register/{code}', 'VacancyController@registrationForm');
+
 	// Applicant Register
 	Route::get('/lowongan/{code}/daftar/step-1', 'ApplicantRegisterController@showRegistrationFormStep1');
 	Route::post('/lowongan/{code}/daftar/step-1', 'ApplicantRegisterController@submitRegistrationFormStep1');

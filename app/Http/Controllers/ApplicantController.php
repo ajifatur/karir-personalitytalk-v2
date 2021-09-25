@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Applicant;
+use App\Models\Attachment;
 use App\Models\Company;
 use App\Models\Position;
 use App\Models\Relationship;
@@ -63,7 +64,7 @@ class ApplicantController extends Controller
         // Get religions
         $religions = Religion::all();
 
-        // Get relationship
+        // Get relationships
         $relationships = Relationship::all();
 
         // View
@@ -124,8 +125,6 @@ class ApplicantController extends Controller
             $user->photo = null;
             $user->status = 1;
             $user->last_visit = null;
-            $user->created_at = date('Y-m-d H:i:s');
-            $user->updated_at = date('Y-m-d H:i:s');
             $user->save();
 
             // Save the applicant
@@ -139,8 +138,6 @@ class ApplicantController extends Controller
             $applicant->identity_number = $request->identity_number;
             $applicant->latest_education = $request->latest_education;
             $applicant->job_experiences = $request->job_experiences;
-            $applicant->created_at = date('Y-m-d H:i:s');
-            $applicant->updated_at = date('Y-m-d H:i:s');
             $applicant->save();
 
             // Redirect
@@ -173,14 +170,18 @@ class ApplicantController extends Controller
         // Get religions
         $religions = Religion::all();
 
-        // Get relationship
+        // Get relationships
         $relationships = Relationship::all();
+
+        // Get attachments
+        $attachments = Attachment::orderBy('num_order','asc')->get();
 
         // View
         return view('admin/applicant/edit', [
             'applicant' => $applicant,
             'religions' => $religions,
             'relationships' => $relationships,
+            'attachments' => $attachments,
         ]);
     }
 
@@ -223,7 +224,6 @@ class ApplicantController extends Controller
             $applicant->identity_number = $request->identity_number;
             $applicant->latest_education = $request->latest_education;
             $applicant->job_experiences = $request->job_experiences;
-            $applicant->updated_at = date('Y-m-d H:i:s');
             $applicant->save();
 
             // Update the user
@@ -234,7 +234,6 @@ class ApplicantController extends Controller
             $user->address = $request->address;
             $user->phone_number = $request->phone_number;
             $user->email = $request->email;
-            $user->updated_at = date('Y-m-d H:i:s');
             $user->save();
 
             // Redirect

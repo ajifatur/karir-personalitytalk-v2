@@ -112,8 +112,6 @@ class EmployeeController extends Controller
             $user->photo = null;
             $user->status = 1;
             $user->last_visit = null;
-            $user->created_at = date('Y-m-d H:i:s');
-            $user->updated_at = date('Y-m-d H:i:s');
             $user->save();
 
             // Save the employee
@@ -126,8 +124,6 @@ class EmployeeController extends Controller
             $employee->latest_education = $request->latest_education;
             $employee->start_date = $request->start_date != '' ? generate_date_format($request->start_date, 'y-m-d') : null;
             $employee->end_date = $request->end_date != '' ? generate_date_format($request->end_date, 'y-m-d') : null;
-            $employee->created_at = date('Y-m-d H:i:s');
-            $employee->updated_at = date('Y-m-d H:i:s');
             $employee->save();
 
             // Redirect
@@ -197,7 +193,6 @@ class EmployeeController extends Controller
             $employee->latest_education = $request->latest_education;
             $employee->start_date = $request->start_date != '' ? generate_date_format($request->start_date, 'y-m-d') : null;
             $employee->end_date = $request->end_date != '' ? generate_date_format($request->end_date, 'y-m-d') : null;
-            $employee->updated_at = date('Y-m-d H:i:s');
             $employee->save();
 
             // Update the user
@@ -208,7 +203,6 @@ class EmployeeController extends Controller
             $user->address = $request->address;
             $user->phone_number = $request->phone_number;
             $user->email = $request->email;
-            $user->updated_at = date('Y-m-d H:i:s');
             $user->save();
 
             // Redirect

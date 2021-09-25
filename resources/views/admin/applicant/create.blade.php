@@ -62,22 +62,6 @@
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>{{ __('applicant.db_field.email') }}: <span class="text-danger">*</span></label>
-								<input name="email" type="email" class="form-control form-control-sm {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}">
-								@if($errors->has('email'))
-								<small class="text-danger">{{ ucfirst($errors->first('email')) }}</small>
-								@endif
-							</div>
-							<div class="form-group col-md-6">
-								<label>{{ __('applicant.db_field.phone_number') }}: <span class="text-danger">*</span></label>
-								<input name="phone_number" type="text" class="form-control form-control-sm {{ $errors->has('phone_number') ? 'is-invalid' : '' }}" value="{{ old('phone_number') }}">
-								@if($errors->has('phone_number'))
-								<small class="text-danger">{{ ucfirst($errors->first('phone_number')) }}</small>
-								@endif
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="form-group col-md-6">
 								<label>{{ __('applicant.db_field.identity_number') }}:</label>
 								<input name="identity_number" type="text" class="form-control form-control-sm {{ $errors->has('identity_number') ? 'is-invalid' : '' }}" value="{{ old('identity_number') }}">
 								@if($errors->has('identity_number'))
@@ -112,18 +96,46 @@
 							</div>
 						</div>
 						<div class="form-row">
+							<div class="form-group col-md-12">
+								<label>{{ __('applicant.db_field.latest_education') }}:</label>
+								<textarea name="latest_education" class="form-control form-control-sm {{ $errors->has('latest_education') ? 'is-invalid' : '' }}" rows="3">{{ old('latest_education') }}</textarea>
+								@if($errors->has('latest_education'))
+								<small class="text-danger">{{ ucfirst($errors->first('latest_education')) }}</small>
+								@endif
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+
+				<!-- Contact -->
+				<div class="row">
+					<div class="col-lg-2 col-md-3">
+						<p><strong>Kontak</strong></p>
+					</div>
+					<div class="col-lg-10 col-md-9">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>{{ __('applicant.db_field.email') }}: <span class="text-danger">*</span></label>
+								<input name="email" type="email" class="form-control form-control-sm {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}">
+								@if($errors->has('email'))
+								<small class="text-danger">{{ ucfirst($errors->first('email')) }}</small>
+								@endif
+							</div>
+							<div class="form-group col-md-6">
+								<label>{{ __('applicant.db_field.phone_number') }}: <span class="text-danger">*</span></label>
+								<input name="phone_number" type="text" class="form-control form-control-sm {{ $errors->has('phone_number') ? 'is-invalid' : '' }}" value="{{ old('phone_number') }}">
+								@if($errors->has('phone_number'))
+								<small class="text-danger">{{ ucfirst($errors->first('phone_number')) }}</small>
+								@endif
+							</div>
+						</div>
+						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>{{ __('applicant.db_field.address') }}:</label>
 								<textarea name="address" class="form-control form-control-sm {{ $errors->has('address') ? 'is-invalid' : '' }}" rows="3">{{ old('address') }}</textarea>
 								@if($errors->has('address'))
 								<small class="text-danger">{{ ucfirst($errors->first('address')) }}</small>
-								@endif
-							</div>
-							<div class="form-group col-md-6">
-								<label>{{ __('applicant.db_field.latest_education') }}:</label>
-								<textarea name="latest_education" class="form-control form-control-sm {{ $errors->has('latest_education') ? 'is-invalid' : '' }}" rows="3">{{ old('latest_education') }}</textarea>
-								@if($errors->has('latest_education'))
-								<small class="text-danger">{{ ucfirst($errors->first('latest_education')) }}</small>
 								@endif
 							</div>
 						</div>

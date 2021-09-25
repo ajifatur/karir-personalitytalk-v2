@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Vacancy;
 use App\Models\Company;
 use App\Models\Position;
+use App\Models\Religion;
+use App\Models\Relationship;
 
 class VacancyController extends Controller
 {
@@ -121,13 +123,9 @@ class VacancyController extends Controller
         // Get the vacancy
         $vacancy = Vacancy::findOrFail($id);
 
-        // Get companies
-        $companies = Company::all();
-
         // View
         return view('admin/vacancy/edit', [
-            'vacancy' => $vacancy,
-            'companies' => $companies,
+            'vacancy' => $vacancy
         ]);
     }
 
@@ -184,5 +182,26 @@ class VacancyController extends Controller
 
         // Redirect
         return redirect()->route('admin.vacancy.index')->with(['message' => 'Berhasil menghapus data.']);
+    }
+
+    /**
+     * Show the registration form.
+     *
+     * @param  string  $code
+     * @return \Illuminate\Http\Response
+     */
+    public function registrationForm($code)
+    {
+        // Get religions
+        $religions = Religion::all();
+
+        // Get relationships
+        $relationships = Relationship::all();
+
+        // View
+        return view('admin/vacancy/register', [
+            'religions' => $religions,
+            'relationships' => $relationships,
+        ]);
     }
 }

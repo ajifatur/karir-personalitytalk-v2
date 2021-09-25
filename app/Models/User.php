@@ -47,4 +47,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    /**
+     * The attachments that belong to the position.
+     */
+    public function attachments()
+    {
+        return $this->belongsToMany(Attachment::class, 'user_attachment', 'user_id', 'attachment_id');
+    }
+
+    /**
+     * The skills that belong to the position.
+     */
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skill', 'user_id', 'skill_id');
+    }
 }
